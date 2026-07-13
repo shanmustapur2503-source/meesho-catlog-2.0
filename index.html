@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meesho Anti-Duplicate Variant Matrix</title>
+    <title>Meesho System Bypass Engine</title>
     <style>
         :root {
             --primary-color: #9f2275;
@@ -155,14 +155,14 @@
             display: none;
         }
 
-        .alert-card {
-            background-color: #fff2e8;
-            border-left: 4px solid #ffbb96;
+        .status-card {
+            background-color: #e6ffed;
+            border-left: 4px solid #28a745;
             padding: 12px;
             margin-bottom: 15px;
             border-radius: 4px;
             font-size: 13px;
-            color: #d4380d;
+            color: #1b662d;
         }
     </style>
 </head>
@@ -170,38 +170,38 @@
 
 <div class="container">
     <header>
-        <h1>Meesho Anti-Duplicate Clean Engine</h1>
-        <p>1000x1000px JPGs | Strict No-Flip & No-Mirror Algorithm Bypass Matrix</p>
+        <h1>Meesho Advanced Anti-Detection Engine</h1>
+        <p>1000x1000px JPGs | Multi-Factor Micro-Data Injection Standard</p>
     </header>
 
     <div class="main-layout">
         <div class="control-panel">
-            <div class="alert-card">
-                <strong>🛡️ Anti-Duplicate Strategy Active:</strong>
-                <p style="margin: 4px 0 0 0; line-height: 1.4; color: #555;">
-                    Flips and mirrors are disabled. This version randomizes background micro-shadow values, subtle dimensions adjustments, and title text positioning parameters so that automated deduplication scanners treat them as separate original photographs.
+            <div class="status-card">
+                <strong>🔒 Multi-Factor Pixel Randomizer Active:</strong>
+                <p style="margin: 4px 0 0 0; line-height: 1.4; color: #444;">
+                    Every exported image automatically contains hidden modifications in background tint levels, margin placements, and drop shadow matrices to stop automated systems from blocking your listings.
                 </p>
             </div>
             
             <div class="form-group">
-                <label for="imageLoader">1. Upload Master Product Asset</label>
+                <label for="imageLoader">1. Upload Product Image</label>
                 <input type="file" id="imageLoader" accept="image/*">
             </div>
 
             <div class="form-group">
-                <label for="productTitle">2. Enter Variant Base Title Text</label>
-                <input type="text" id="productTitle" placeholder="e.g., WOODEN WALL ART" value="PREMIUM ART FRAME">
+                <label for="productTitle">2. Enter Listing Title Text</label>
+                <input type="text" id="productTitle" placeholder="e.g., WALL DECOR" value="PREMIUM SEALS MUG">
             </div>
 
-            <button id="generateBtn" class="btn" disabled>Generate 10 Unique JPEGs</button>
+            <button id="generateBtn" class="btn" disabled>Generate Unique Variants</button>
             <button id="downloadAllBtn" class="btn btn-download-all" style="display: none;">Download All Images (ZIP)</button>
         </div>
 
         <div class="preview-panel">
-            <h3>Hash-Altered Compliant Outputs</h3>
+            <h3>Clean Output Variant Pack</h3>
             <div id="gridOutputs" class="grid-outputs">
                 <p style="color: #999; grid-column: 1/-1; text-align: center; padding: 40px 0;">
-                    Load your listing master file above to process variations.
+                    Load your master product image to begin processing.
                 </p>
             </div>
         </div>
@@ -224,19 +224,18 @@
     let uploadedImage = null;
     let generatedImagesBlobs = []; 
 
-    // Custom configuration matrix targeting specific algorithm bypasses:
-    // NO mirror flips. NO upside downs. Uses size compression ratios, shadows, and color shifts.
-    const antiDuplicateConfigs = [
-        { scale: 0.76, dx: 0,   dy: -45, shadowBlur: 0,  shadowColor: "transparent", textColor: "#9F2275" },
-        { scale: 0.74, dx: -10, dy: -40, shadowBlur: 8,  shadowColor: "rgba(0,0,0,0.06)", textColor: "#111827" },
-        { scale: 0.78, dx: 10,  dy: -50, shadowBlur: 14, shadowColor: "rgba(0,0,0,0.04)", textColor: "#FF3B30" },
-        { scale: 0.75, dx: -15, dy: -35, shadowBlur: 6,  shadowColor: "rgba(0,0,0,0.08)", textColor: "#007AFF" },
-        { scale: 0.77, dx: 15,  dy: -55, shadowBlur: 10, shadowColor: "rgba(0,0,0,0.05)", textColor: "#E60023" },
-        { scale: 0.73, dx: -20, dy: -42, shadowBlur: 12, shadowColor: "rgba(0,0,0,0.07)", textColor: "#059669" },
-        { scale: 0.79, dx: 20,  dy: -48, shadowBlur: 5,  shadowColor: "rgba(0,0,0,0.03)", textColor: "#FF9500" },
-        { scale: 0.74, dx: -5,  dy: -60, shadowBlur: 16, shadowColor: "rgba(0,0,0,0.05)", textColor: "#5856D6" },
-        { scale: 0.76, dx: 5,   dy: -30, shadowBlur: 9,  shadowColor: "rgba(0,0,0,0.06)", textColor: "#2563EB" },
-        { scale: 0.75, dx: 0,   dy: -52, shadowBlur: 11, shadowColor: "rgba(0,0,0,0.04)", textColor: "#0F766E" }
+    // Configuration array injects strict variation profiles per output image 
+    const hashVariationMatrix = [
+        { bg: "#FFFFFF", scale: 0.76, dx: 1,  dy: -42, blur: 5,  col: "#9F2275", dotX: 10,  dotY: 10 },
+        { bg: "#FFFFFE", scale: 0.74, dx: -2, dy: -38, blur: 9,  col: "#111827", dotX: 990, dotY: 15 },
+        { bg: "#FEFEFE", scale: 0.77, dx: 3,  dy: -44, blur: 7,  col: "#FF3B30", dotX: 15,  dotY: 985 },
+        { bg: "#FFFFFF", scale: 0.75, dx: -1, dy: -40, blur: 11, col: "#007AFF", dotX: 980, dotY: 980 },
+        { bg: "#FFFFFD", scale: 0.76, dx: 2,  dy: -46, blur: 6,  col: "#E60023", dotX: 50,  dotY: 50 },
+        { bg: "#FDFDFD", scale: 0.73, dx: -3, dy: -39, blur: 10, col: "#059669", dotX: 950, dotY: 40 },
+        { bg: "#FEFEFF", scale: 0.78, dx: 0,  dy: -45, blur: 8,  col: "#FF9500", dotX: 40,  dotY: 950 },
+        { bg: "#FFFFFC", scale: 0.74, dx: 2,  dy: -41, blur: 12, col: "#5856D6", dotX: 500, dotY: 12 },
+        { bg: "#FCFCFC", scale: 0.76, dx: -2, dy: -47, blur: 4,  col: "#2563EB", dotX: 12,  dotY: 500 },
+        { bg: "#FFFFFF", scale: 0.75, dx: 1,  dy: -43, blur: 13, col: "#0F766E", dotX: 880, dotY: 880 }
     ];
 
     imageLoader.addEventListener('change', function(e) {
@@ -276,57 +275,57 @@
         
         const titleText = productTitleInput.value.trim().toUpperCase();
 
-        for (let i = 0; i < antiDuplicateConfigs.length; i++) {
-            const config = antiDuplicateConfigs[i];
+        for (let i = 0; i < hashVariationMatrix.length; i++) {
+            const config = hashVariationMatrix[i];
             
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // Render pure clean white catalog backdrop
-            ctx.fillStyle = "#FFFFFF";
+            // 1. Establish background blocks with micro-color shifts
+            ctx.fillStyle = config.bg;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 2. Secret Dot Injection - creates distinct matrix boundaries for image checking software
+            ctx.fillStyle = "rgba(0,0,0,0.01)"; // Completely invisible to the customer
+            ctx.fillRect(config.dotX, config.dotY, 2, 2);
 
             ctx.save();
 
-            // Set up artificial variable drop shadows to break background pixel continuity checks
-            if (config.shadowBlur > 0) {
-                ctx.shadowColor = config.shadowColor;
-                ctx.shadowBlur = config.shadowBlur;
-                ctx.shadowOffsetX = 4;
-                ctx.shadowOffsetY = 6;
-            }
+            // 3. Modulate drop shadows to distort boundaries
+            ctx.shadowColor = "rgba(0,0,0,0.05)";
+            ctx.shadowBlur = config.blur;
+            ctx.shadowOffsetX = 3;
+            ctx.shadowOffsetY = 5;
 
-            // Move object base coordinates safely inside the center matrix zone
+            // 4. Position layout via translation mappings using coordinate variations
             ctx.translate(canvas.width / 2 + config.dx, canvas.height / 2 + config.dy);
 
             const baseRatio = Math.min(canvas.width / uploadedImage.width, canvas.height / uploadedImage.height);
             const renderWidth = uploadedImage.width * baseRatio * config.scale;
             const renderHeight = uploadedImage.height * baseRatio * config.scale;
 
-            // Draw product standard stance with zero mirror transformations
             ctx.drawImage(uploadedImage, -renderWidth / 2, -renderHeight / 2, renderWidth, renderHeight);
 
             ctx.restore();
 
-            // Render text elements with altering colors at the bottom frame line
+            // 5. Render lower title tags using varying color choices
             if (titleText.length > 0) {
                 ctx.save();
-                ctx.fillStyle = config.textColor;
+                ctx.fillStyle = config.col;
                 ctx.font = "bold 34px 'Segoe UI', Arial, sans-serif";
-                ctx.textAlign = "center";
                 ctx.textBaseline = "bottom";
+                ctx.textAlign = "center";
                 ctx.fillText(titleText, canvas.width / 2, canvas.height - 50);
                 ctx.restore();
             }
 
-            // Compress to meet standard platform parameters (<150KB)
+            // Export under target limits (<150KB)
             const optimizedBlob = await compressToTargetBlob(canvas);
             const fileSizeInKB = (optimizedBlob.size / 1024).toFixed(1);
             
-            generatedImagesBlobs.push({ blob: optimizedBlob, filename: `Variant_Safe_Clean_${i+1}.jpg` });
+            generatedImagesBlobs.push({ blob: optimizedBlob, filename: `Variant_Product_ID_${i+1}.jpg` });
 
             const imageUrl = URL.createObjectURL(optimizedBlob);
             
-            // Append UI card elements
             const card = document.createElement('div');
             card.className = 'variant-card';
             
@@ -334,8 +333,8 @@
             img.src = imageUrl;
             
             const label = document.createElement('p');
-            label.innerText = `Clean Variant ${i + 1}`;
-            label.style.color = config.textColor;
+            label.innerText = `ID Clean Pack ${i + 1}`;
+            label.style.color = config.col;
             
             const sizeLabel = document.createElement('span');
             sizeLabel.innerText = `${fileSizeInKB} KB`;
@@ -361,7 +360,7 @@
             const zipUrl = URL.createObjectURL(content);
             const downloadLink = document.createElement('a');
             downloadLink.href = zipUrl;
-            downloadLink.download = "meesho_anti_duplicate_pack.zip";
+            downloadLink.download = "meesho_unqiue_hashes_pack.zip";
             document.body.appendChild(downloadLink);
             downloadLink.click();
             document.body.removeChild(downloadLink);
