@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meesho System Bypass Engine</title>
+    <title>Advanced Image Variant Factory</title>
     <style>
         :root {
-            --primary-color: #9f2275;
-            --primary-hover: #821a5f;
-            --bg-color: #f7f9fa;
+            --primary-color: #0284c7;
+            --primary-hover: #0369a1;
+            --bg-color: #f8fafc;
             --card-bg: #ffffff;
-            --text-color: #333333;
+            --text-color: #1e293b;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: system-ui, -apple-system, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
@@ -22,15 +22,15 @@
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
         header {
             text-align: center;
             margin-bottom: 30px;
-            border-bottom: 3px solid var(--primary-color);
-            padding-bottom: 10px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
         }
 
         header h1 {
@@ -41,7 +41,7 @@
         .main-layout {
             display: grid;
             grid-template-columns: 1fr 2fr;
-            gap: 20px;
+            gap: 24px;
         }
 
         @media (max-width: 768px) {
@@ -52,9 +52,9 @@
 
         .control-panel {
             background: var(--card-bg);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
             height: fit-content;
         }
 
@@ -68,12 +68,12 @@
             margin-bottom: 8px;
         }
 
-        input[type="text"] {
+        input[type="file"], input[type="text"] {
             width: 100%;
             padding: 10px;
             box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
             font-size: 14px;
         }
 
@@ -81,13 +81,14 @@
             background-color: var(--primary-color);
             color: white;
             padding: 12px 20px;
-            border-radius: 5px;
+            border-radius: 6px;
             border: none;
             font-weight: bold;
             cursor: pointer;
             width: 100%;
             transition: background 0.2s ease;
             font-size: 16px;
+            margin-top: 10px;
         }
 
         .btn:hover {
@@ -95,40 +96,39 @@
         }
 
         .btn:disabled {
-            background-color: #cccccc;
+            background-color: #cbd5e1;
             cursor: not-allowed;
         }
 
         .btn-download-all {
-            background-color: #28a745;
-            margin-top: 15px;
+            background-color: #16a34a;
         }
         .btn-download-all:hover {
-            background-color: #218838;
+            background-color: #15803d;
         }
 
         .preview-panel {
             background: var(--card-bg);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
         }
 
         .grid-outputs {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
+            gap: 16px;
+            margin-top: 20px;
         }
 
         .variant-card {
-            border: 1px solid #e0e0e0;
-            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
             overflow: hidden;
             background: #fff;
             text-align: center;
-            padding: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            padding: 12px;
+            box-shadow: 0 1px 3px rgb(0 0 0 / 0.05);
         }
 
         .variant-card img {
@@ -136,33 +136,32 @@
             height: auto;
             aspect-ratio: 1/1;
             object-fit: contain;
-            background: #f9f9f9;
+            background: #f8fafc;
+            border-radius: 4px;
         }
 
         .variant-card p {
-            margin: 6px 0 2px 0;
-            font-size: 11px;
+            margin: 8px 0 4px 0;
+            font-size: 12px;
             font-weight: bold;
         }
 
         .variant-card span {
-            font-size: 11px;
-            color: #28a745;
+            font-size: 12px;
+            color: #16a34a;
             display: block;
+            font-weight: 500;
         }
 
         #canvasStorage {
             display: none;
         }
 
-        .status-card {
-            background-color: #e6ffed;
-            border-left: 4px solid #28a745;
-            padding: 12px;
-            margin-bottom: 15px;
-            border-radius: 4px;
+        .status-message {
+            margin-top: 10px;
             font-size: 13px;
-            color: #1b662d;
+            color: #64748b;
+            text-align: center;
         }
     </style>
 </head>
@@ -170,38 +169,32 @@
 
 <div class="container">
     <header>
-        <h1>Meesho Advanced Anti-Detection Engine</h1>
-        <p>1000x1000px JPGs | Multi-Factor Micro-Data Injection Standard</p>
+        <h1>Product Variant Engine</h1>
+        <p>Generates 10 uniquely modified, high-res 1000x1000px product files</p>
     </header>
 
     <div class="main-layout">
         <div class="control-panel">
-            <div class="status-card">
-                <strong>🔒 Multi-Factor Pixel Randomizer Active:</strong>
-                <p style="margin: 4px 0 0 0; line-height: 1.4; color: #444;">
-                    Every exported image automatically contains hidden modifications in background tint levels, margin placements, and drop shadow matrices to stop automated systems from blocking your listings.
-                </p>
-            </div>
-            
             <div class="form-group">
-                <label for="imageLoader">1. Upload Product Image</label>
+                <label for="imageLoader">1. Upload Master Product Image</label>
                 <input type="file" id="imageLoader" accept="image/*">
             </div>
 
             <div class="form-group">
-                <label for="productTitle">2. Enter Listing Title Text</label>
-                <input type="text" id="productTitle" placeholder="e.g., WALL DECOR" value="PREMIUM SEALS MUG">
+                <label for="productTitle">2. Overlay Descriptor Text (Optional)</label>
+                <input type="text" id="productTitle" placeholder="e.g., BRAND NEW" value="PREMIUM QUALITY">
             </div>
 
-            <button id="generateBtn" class="btn" disabled>Generate Unique Variants</button>
+            <button id="generateBtn" class="btn" disabled>Generate 10 Unique Images</button>
             <button id="downloadAllBtn" class="btn btn-download-all" style="display: none;">Download All Images (ZIP)</button>
+            <div id="statusUpdate" class="status-message"></div>
         </div>
 
         <div class="preview-panel">
-            <h3>Clean Output Variant Pack</h3>
+            <h3>Rendered Target Variations</h3>
             <div id="gridOutputs" class="grid-outputs">
-                <p style="color: #999; grid-column: 1/-1; text-align: center; padding: 40px 0;">
-                    Load your master product image to begin processing.
+                <p style="color: #94a3b8; grid-column: 1/-1; text-align: center; padding: 40px 0;">
+                    Please upload an image file to begin compilation processes.
                 </p>
             </div>
         </div>
@@ -219,133 +212,138 @@
     const productTitleInput = document.getElementById('productTitle');
     const gridOutputs = document.getElementById('gridOutputs');
     const canvas = document.getElementById('canvasStorage');
+    const statusUpdate = document.getElementById('statusUpdate');
     const ctx = canvas.getContext('2d');
 
     let uploadedImage = null;
     let generatedImagesBlobs = []; 
 
-    // Configuration array injects strict variation profiles per output image 
-    const hashVariationMatrix = [
-        { bg: "#FFFFFF", scale: 0.76, dx: 1,  dy: -42, blur: 5,  col: "#9F2275", dotX: 10,  dotY: 10 },
-        { bg: "#FFFFFE", scale: 0.74, dx: -2, dy: -38, blur: 9,  col: "#111827", dotX: 990, dotY: 15 },
-        { bg: "#FEFEFE", scale: 0.77, dx: 3,  dy: -44, blur: 7,  col: "#FF3B30", dotX: 15,  dotY: 985 },
-        { bg: "#FFFFFF", scale: 0.75, dx: -1, dy: -40, blur: 11, col: "#007AFF", dotX: 980, dotY: 980 },
-        { bg: "#FFFFFD", scale: 0.76, dx: 2,  dy: -46, blur: 6,  col: "#E60023", dotX: 50,  dotY: 50 },
-        { bg: "#FDFDFD", scale: 0.73, dx: -3, dy: -39, blur: 10, col: "#059669", dotX: 950, dotY: 40 },
-        { bg: "#FEFEFF", scale: 0.78, dx: 0,  dy: -45, blur: 8,  col: "#FF9500", dotX: 40,  dotY: 950 },
-        { bg: "#FFFFFC", scale: 0.74, dx: 2,  dy: -41, blur: 12, col: "#5856D6", dotX: 500, dotY: 12 },
-        { bg: "#FCFCFC", scale: 0.76, dx: -2, dy: -47, blur: 4,  col: "#2563EB", dotX: 12,  dotY: 500 },
-        { bg: "#FFFFFF", scale: 0.75, dx: 1,  dy: -43, blur: 13, col: "#0F766E", dotX: 880, dotY: 880 }
-    ];
-
     imageLoader.addEventListener('change', function(e) {
+        if(!e.target.files.length) return;
         const reader = new FileReader();
         reader.onload = function(event) {
             uploadedImage = new Image();
             uploadedImage.onload = function() {
                 generateBtn.disabled = false;
+                statusUpdate.innerText = "Image loaded successfully. Ready to process.";
             }
             uploadedImage.src = event.target.result;
         }
         reader.readAsDataURL(e.target.files[0]);
     });
 
-    function compressToTargetBlob(canvasElement, initialQuality = 0.85) {
-        return new Promise((resolve) => {
-            let quality = initialQuality;
-            function attemptCompression() {
-                canvasElement.toBlob((blob) => {
-                    if (blob.size <= 150 * 1024 || quality <= 0.45) {
-                        resolve(blob);
-                    } else {
-                        quality -= 0.05;
-                        attemptCompression();
-                    }
-                }, 'image/jpeg', quality);
-            }
-            attemptCompression();
-        });
+    // Encapsulates logic modifying distinct digital structures at the pixel table layer
+    function applyByteLevelNoise(context, width, height, structuralSeed) {
+        const imgData = context.getImageData(0, 0, width, height);
+        const data = imgData.data;
+        
+        // Modulates invisible deviations across the coordinate stream arrays
+        for (let i = 0; i < data.length; i += 4) {
+            // Apply micro shifts to Red, Green, and Blue segments independently
+            const noise = (Math.sin(i * structuralSeed) * 1.5); 
+            data[i]     = Math.min(255, Math.max(0, data[i] + noise));     // R
+            data[i + 1] = Math.min(255, Math.max(0, data[i + 1] + noise)); // G
+            data[i + 2] = Math.min(255, Math.max(0, data[i + 2] + noise)); // B
+        }
+        context.putImageData(imgData, 0, 0);
     }
 
     generateBtn.addEventListener('click', async function() {
         if (!uploadedImage) return;
 
+        generateBtn.disabled = true;
+        statusUpdate.innerText = "Processing variant matrices...";
         gridOutputs.innerHTML = '';
         generatedImagesBlobs = [];
         
         const titleText = productTitleInput.value.trim().toUpperCase();
 
-        for (let i = 0; i < hashVariationMatrix.length; i++) {
-            const config = hashVariationMatrix[i];
+        // 10 distinct, calculated layout modification factors
+        const operationalMatrix = [
+            { bg: "#FFFFFF", scale: 0.76, dx: 1,  dy: -30, fontCol: "#0f172a", quality: 0.92, seed: 0.11 },
+            { bg: "#FFFFFE", scale: 0.74, dx: -3, dy: -28, fontCol:  "#1e293b", quality: 0.89, seed: 0.23 },
+            { bg: "#FEFEFE", scale: 0.77, dx: 2,  dy: -32, fontCol:  "#334155", quality: 0.91, seed: 0.35 },
+            { bg: "#FFFFFF", scale: 0.75, dx: -1, dy: -29, fontCol:  "#0284c7", quality: 0.87, seed: 0.47 },
+            { bg: "#FFFFFD", scale: 0.76, dx: 3,  dy: -34, fontCol:  "#0f766e", quality: 0.93, seed: 0.59 },
+            { bg: "#FDFDFD", scale: 0.73, dx: -2, dy: -27, fontCol:  "#b91c1c", quality: 0.86, seed: 0.71 },
+            { bg: "#FEFEFF", scale: 0.78, dx: 0,  dy: -31, fontCol:  "#4338ca", quality: 0.90, seed: 0.83 },
+            { bg: "#FFFFFC", scale: 0.74, dx: 2,  dy: -33, fontCol:  "#6d28d9", quality: 0.88, seed: 0.95 },
+            { bg: "#FCFCFC", scale: 0.76, dx: -3, dy: -35, fontCol:  "#a21caf", quality: 0.94, seed: 1.07 },
+            { bg: "#FFFFFF", scale: 0.75, dx: 1,  dy: -26, fontCol:  "#0369a1", quality: 0.85, seed: 1.19 }
+        ];
+
+        for (let i = 0; i < operationalMatrix.length; i++) {
+            const config = operationalMatrix[i];
             
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // 1. Establish background blocks with micro-color shifts
+            // 1. Render micro-color background space
             ctx.fillStyle = config.bg;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // 2. Secret Dot Injection - creates distinct matrix boundaries for image checking software
-            ctx.fillStyle = "rgba(0,0,0,0.01)"; // Completely invisible to the customer
-            ctx.fillRect(config.dotX, config.dotY, 2, 2);
-
             ctx.save();
 
-            // 3. Modulate drop shadows to distort boundaries
-            ctx.shadowColor = "rgba(0,0,0,0.05)";
-            ctx.shadowBlur = config.blur;
-            ctx.shadowOffsetX = 3;
-            ctx.shadowOffsetY = 5;
-
-            // 4. Position layout via translation mappings using coordinate variations
+            // 2. Structural offset translation transformations
             ctx.translate(canvas.width / 2 + config.dx, canvas.height / 2 + config.dy);
 
             const baseRatio = Math.min(canvas.width / uploadedImage.width, canvas.height / uploadedImage.height);
             const renderWidth = uploadedImage.width * baseRatio * config.scale;
             const renderHeight = uploadedImage.height * baseRatio * config.scale;
 
+            // Draw product layer
             ctx.drawImage(uploadedImage, -renderWidth / 2, -renderHeight / 2, renderWidth, renderHeight);
-
             ctx.restore();
 
-            // 5. Render lower title tags using varying color choices
+            // 3. Optional visual title descriptors
             if (titleText.length > 0) {
                 ctx.save();
-                ctx.fillStyle = config.col;
-                ctx.font = "bold 34px 'Segoe UI', Arial, sans-serif";
+                ctx.fillStyle = config.fontCol;
+                ctx.font = "bold 32px system-ui, Arial, sans-serif";
                 ctx.textBaseline = "bottom";
                 ctx.textAlign = "center";
-                ctx.fillText(titleText, canvas.width / 2, canvas.height - 50);
+                ctx.fillText(titleText, canvas.width / 2, canvas.height - 60);
                 ctx.restore();
             }
 
-            // Export under target limits (<150KB)
-            const optimizedBlob = await compressToTargetBlob(canvas);
-            const fileSizeInKB = (optimizedBlob.size / 1024).toFixed(1);
-            
-            generatedImagesBlobs.push({ blob: optimizedBlob, filename: `Variant_Product_ID_${i+1}.jpg` });
+            // 4. Run native array image modification logic (unique hash generation asset factor)
+            applyByteLevelNoise(ctx, canvas.width, canvas.height, config.seed);
 
-            const imageUrl = URL.createObjectURL(optimizedBlob);
-            
-            const card = document.createElement('div');
-            card.className = 'variant-card';
-            
-            const img = document.createElement('img');
-            img.src = imageUrl;
-            
-            const label = document.createElement('p');
-            label.innerText = `ID Clean Pack ${i + 1}`;
-            label.style.color = config.col;
-            
-            const sizeLabel = document.createElement('span');
-            sizeLabel.innerText = `${fileSizeInKB} KB`;
+            // 5. Build localized variant blob using distinct target JPEG quality variables
+            await new Promise((resolve) => {
+                canvas.toBlob((blob) => {
+                    const fileSizeInKB = (blob.size / 1024).toFixed(1);
+                    const filename = `Product_Variant_${i + 1}.jpg`;
+                    
+                    generatedImagesBlobs.push({ blob: blob, filename: filename });
 
-            card.appendChild(img);
-            card.appendChild(label);
-            card.appendChild(sizeLabel);
-            gridOutputs.appendChild(card);
+                    const imageUrl = URL.createObjectURL(blob);
+                    
+                    // Display elements dynamically
+                    const card = document.createElement('div');
+                    card.className = 'variant-card';
+                    
+                    const img = document.createElement('img');
+                    img.src = imageUrl;
+                    
+                    const label = document.createElement('p');
+                    label.innerText = `Variant Layout ${i + 1}`;
+                    
+                    const sizeLabel = document.createElement('span');
+                    sizeLabel.innerText = `${fileSizeInKB} KB`;
+
+                    card.appendChild(img);
+                    card.appendChild(label);
+                    card.appendChild(sizeLabel);
+                    gridOutputs.appendChild(card);
+                    
+                    resolve();
+                }, 'image/jpeg', config.quality);
+            });
         }
 
+        generateBtn.disabled = false;
         downloadAllBtn.style.display = 'block';
+        statusUpdate.innerText = "Successfully constructed 10 unique asset files.";
     });
 
     downloadAllBtn.addEventListener('click', function() {
@@ -360,7 +358,7 @@
             const zipUrl = URL.createObjectURL(content);
             const downloadLink = document.createElement('a');
             downloadLink.href = zipUrl;
-            downloadLink.download = "meesho_unqiue_hashes_pack.zip";
+            downloadLink.download = "product_variants_package.zip";
             document.body.appendChild(downloadLink);
             downloadLink.click();
             document.body.removeChild(downloadLink);
