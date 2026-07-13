@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meesho Anti-Duplicate Variant Matrix</title>
+    <style>
+        :root {
+            --primary-color: #9f2275;
+            --primary-hover: #821a5f;
+            --bg-color: #f7f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        header h1 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .control-panel {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            height: fit-content;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 5px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s ease;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .btn-download-all {
+            background-color: #28a745;
+            margin-top: 15px;
+        }
+        .btn-download-all:hover {
+            background-color: #218838;
+        }
+
+        .preview-panel {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .grid-outputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .variant-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+            background: #fff;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .variant-card img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1/1;
+            object-fit: contain;
+            background: #f9f9f9;
+        }
+
+        .variant-card p {
+            margin: 6px 0 2px 0;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .variant-card span {
+            font-size: 11px;
+            color: #28a745;
+            display: block;
+        }
+
+        #canvasStorage {
+            display: none;
+        }
+
+        .alert-card {
+            background-color: #fff2e8;
+            border-left: 4px solid #ffbb96;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #d4380d;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Meesho Anti-Duplicate Clean Engine</h1>
+        <p>1000x1000px JPGs | Strict No-Flip & No-Mirror Algorithm Bypass Matrix</p>
+    </header>
+
+    <div class="main-layout">
+        <div class="control-panel">
+            <div class="alert-card">
+                <strong>🛡️ Anti-Duplicate Strategy Active:</strong>
+                <p style="margin: 4px 0 0 0; line-height: 1.4; color: #555;">
+                    Flips and mirrors are disabled. This version randomizes background micro-shadow values, subtle dimensions adjustments, and title text positioning parameters so that automated deduplication scanners treat them as separate original photographs.
+                </p>
+            </div>
+            
+            <div class="form-group">
+                <label for="imageLoader">1. Upload Master Product Asset</label>
+                <input type="file" id="imageLoader" accept="image/*">
+            </div>
+
+            <div class="form-group">
+                <label for="productTitle">2. Enter Variant Base Title Text</label>
+                <input type="text" id="productTitle" placeholder="e.g., WOODEN WALL ART" value="PREMIUM ART FRAME">
+            </div>
+
+            <button id="generateBtn" class="btn" disabled>Generate 10 Unique JPEGs</button>
+            <button id="downloadAllBtn" class="btn btn-download-all" style="display: none;">Download All Images (ZIP)</button>
+        </div>
+
+        <div class="preview-panel">
+            <h3>Hash-Altered Compliant Outputs</h3>
+            <div id="gridOutputs" class="grid-outputs">
+                <p style="color: #999; grid-column: 1/-1; text-align: center; padding: 40px 0;">
+                    Load your listing master file above to process variations.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<canvas id="canvasStorage" width="1000" height="1000"></canvas>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<script>
+    const imageLoader = document.getElementById('imageLoader');
+    const generateBtn = document.getElementById('generateBtn');
+    const downloadAllBtn = document.getElementById('downloadAllBtn');
+    const productTitleInput = document.getElementById('productTitle');
+    const gridOutputs = document.getElementById('gridOutputs');
+    const canvas = document.getElementById('canvasStorage');
+    const ctx = canvas.getContext('2d');
+
+    let uploadedImage = null;
+    let generatedImagesBlobs = []; 
+
+    // Custom configuration matrix targeting specific algorithm bypasses:
+    // NO mirror flips. NO upside downs. Uses size compression ratios, shadows, and color shifts.
+    const antiDuplicateConfigs = [
+        { scale: 0.76, dx: 0,   dy: -45, shadowBlur: 0,  shadowColor: "transparent", textColor: "#9F2275" },
+        { scale: 0.74, dx: -10, dy: -40, shadowBlur: 8,  shadowColor: "rgba(0,0,0,0.06)", textColor: "#111827" },
+        { scale: 0.78, dx: 10,  dy: -50, shadowBlur: 14, shadowColor: "rgba(0,0,0,0.04)", textColor: "#FF3B30" },
+        { scale: 0.75, dx: -15, dy: -35, shadowBlur: 6,  shadowColor: "rgba(0,0,0,0.08)", textColor: "#007AFF" },
+        { scale: 0.77, dx: 15,  dy: -55, shadowBlur: 10, shadowColor: "rgba(0,0,0,0.05)", textColor: "#E60023" },
+        { scale: 0.73, dx: -20, dy: -42, shadowBlur: 12, shadowColor: "rgba(0,0,0,0.07)", textColor: "#059669" },
+        { scale: 0.79, dx: 20,  dy: -48, shadowBlur: 5,  shadowColor: "rgba(0,0,0,0.03)", textColor: "#FF9500" },
+        { scale: 0.74, dx: -5,  dy: -60, shadowBlur: 16, shadowColor: "rgba(0,0,0,0.05)", textColor: "#5856D6" },
+        { scale: 0.76, dx: 5,   dy: -30, shadowBlur: 9,  shadowColor: "rgba(0,0,0,0.06)", textColor: "#2563EB" },
+        { scale: 0.75, dx: 0,   dy: -52, shadowBlur: 11, shadowColor: "rgba(0,0,0,0.04)", textColor: "#0F766E" }
+    ];
+
+    imageLoader.addEventListener('change', function(e) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            uploadedImage = new Image();
+            uploadedImage.onload = function() {
+                generateBtn.disabled = false;
+            }
+            uploadedImage.src = event.target.result;
+        }
+        reader.readAsDataURL(e.target.files[0]);
+    });
+
+    function compressToTargetBlob(canvasElement, initialQuality = 0.85) {
+        return new Promise((resolve) => {
+            let quality = initialQuality;
+            function attemptCompression() {
+                canvasElement.toBlob((blob) => {
+                    if (blob.size <= 150 * 1024 || quality <= 0.45) {
+                        resolve(blob);
+                    } else {
+                        quality -= 0.05;
+                        attemptCompression();
+                    }
+                }, 'image/jpeg', quality);
+            }
+            attemptCompression();
+        });
+    }
+
+    generateBtn.addEventListener('click', async function() {
+        if (!uploadedImage) return;
+
+        gridOutputs.innerHTML = '';
+        generatedImagesBlobs = [];
+        
+        const titleText = productTitleInput.value.trim().toUpperCase();
+
+        for (let i = 0; i < antiDuplicateConfigs.length; i++) {
+            const config = antiDuplicateConfigs[i];
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Render pure clean white catalog backdrop
+            ctx.fillStyle = "#FFFFFF";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.save();
+
+            // Set up artificial variable drop shadows to break background pixel continuity checks
+            if (config.shadowBlur > 0) {
+                ctx.shadowColor = config.shadowColor;
+                ctx.shadowBlur = config.shadowBlur;
+                ctx.shadowOffsetX = 4;
+                ctx.shadowOffsetY = 6;
+            }
+
+            // Move object base coordinates safely inside the center matrix zone
+            ctx.translate(canvas.width / 2 + config.dx, canvas.height / 2 + config.dy);
+
+            const baseRatio = Math.min(canvas.width / uploadedImage.width, canvas.height / uploadedImage.height);
+            const renderWidth = uploadedImage.width * baseRatio * config.scale;
+            const renderHeight = uploadedImage.height * baseRatio * config.scale;
+
+            // Draw product standard stance with zero mirror transformations
+            ctx.drawImage(uploadedImage, -renderWidth / 2, -renderHeight / 2, renderWidth, renderHeight);
+
+            ctx.restore();
+
+            // Render text elements with altering colors at the bottom frame line
+            if (titleText.length > 0) {
+                ctx.save();
+                ctx.fillStyle = config.textColor;
+                ctx.font = "bold 34px 'Segoe UI', Arial, sans-serif";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "bottom";
+                ctx.fillText(titleText, canvas.width / 2, canvas.height - 50);
+                ctx.restore();
+            }
+
+            // Compress to meet standard platform parameters (<150KB)
+            const optimizedBlob = await compressToTargetBlob(canvas);
+            const fileSizeInKB = (optimizedBlob.size / 1024).toFixed(1);
+            
+            generatedImagesBlobs.push({ blob: optimizedBlob, filename: `Variant_Safe_Clean_${i+1}.jpg` });
+
+            const imageUrl = URL.createObjectURL(optimizedBlob);
+            
+            // Append UI card elements
+            const card = document.createElement('div');
+            card.className = 'variant-card';
+            
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            
+            const label = document.createElement('p');
+            label.innerText = `Clean Variant ${i + 1}`;
+            label.style.color = config.textColor;
+            
+            const sizeLabel = document.createElement('span');
+            sizeLabel.innerText = `${fileSizeInKB} KB`;
+
+            card.appendChild(img);
+            card.appendChild(label);
+            card.appendChild(sizeLabel);
+            gridOutputs.appendChild(card);
+        }
+
+        downloadAllBtn.style.display = 'block';
+    });
+
+    downloadAllBtn.addEventListener('click', function() {
+        if (generatedImagesBlobs.length === 0) return;
+
+        const zip = new JSZip();
+        generatedImagesBlobs.forEach(item => {
+            zip.file(item.filename, item.blob);
+        });
+
+        zip.generateAsync({type:"blob"}).then(function(content) {
+            const zipUrl = URL.createObjectURL(content);
+            const downloadLink = document.createElement('a');
+            downloadLink.href = zipUrl;
+            downloadLink.download = "meesho_anti_duplicate_pack.zip";
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        });
+    });
+</script>
+</body>
+</html>
