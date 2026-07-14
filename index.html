@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Product Photoshoot Variant Engine</title>
+    <title>Premium Multi-Pose Product Photoshoot Engine</title>
     <style>
         :root {
             --primary-color: #0f172a;
@@ -205,7 +205,7 @@
 <div class="container">
     <header>
         <h1>Product Photoshoot Engine</h1>
-        <p>Generates 10 distinct professional studio scenes at 1000x1000px</p>
+        <p>Generates 10 distinct, uniquely-posed studio scenes at 1000x1000px</p>
     </header>
 
     <div class="main-layout">
@@ -260,14 +260,14 @@
             uploadedImage = new Image();
             uploadedImage.onload = function() {
                 generateBtn.disabled = false;
-                statusUpdate.innerText = "Master image loaded. Ready to simulate environments.";
+                statusUpdate.innerText = "Master image loaded. Ready to simulate environments and poses.";
             }
             uploadedImage.src = event.target.result;
         }
         reader.readAsDataURL(e.target.files[0]);
     });
 
-    // Invisible micro-pixel deviations to guarantee unique file structural hashes
+    // Byte-level micro-pixel deviations to ensure unique metadata and hashes for catalog listings
     function applyByteLevelNoise(context, width, height, structuralSeed) {
         const imgData = context.getImageData(0, 0, width, height);
         const data = imgData.data;
@@ -284,72 +284,77 @@
         if (!uploadedImage) return;
 
         generateBtn.disabled = true;
-        statusUpdate.innerText = "Simulating photoshoot environments...";
+        statusUpdate.innerText = "Simulating photoshoot environments and custom poses...";
         gridOutputs.innerHTML = '';
         generatedImagesBlobs = [];
         
         const titleText = productTitleInput.value.trim().toUpperCase();
 
-        // High-end Photoshoot setup profiles running inside the canvas compositor
+        // High-end photoshoots utilizing custom offsets, scales, rotations, and reflection states for 10 unique poses
         const shoots = [
             {
-                name: "Classic Studio White",
+                name: "1. Classic Studio Centered",
                 render: (ctx, img, text) => {
-                    // Crisp white back-gradient
+                    // Back wall radial gradient
                     let grad = ctx.createRadialGradient(500, 500, 50, 500, 500, 700);
                     grad.addColorStop(0, '#ffffff');
-                    grad.addColorStop(1, '#f1f5f9');
+                    grad.addColorStop(1, '#e2e8f0');
                     ctx.fillStyle = grad;
                     ctx.fillRect(0, 0, 1000, 1000);
 
-                    // Smooth Floor Drop-shadow
-                    ctx.fillStyle = "rgba(0, 0, 0, 0.12)";
+                    // Drop Shadow underneath
+                    ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
                     ctx.beginPath();
-                    ctx.ellipse(500, 720, 220, 35, 0, 0, 2 * Math.PI);
+                    ctx.ellipse(500, 750, 220, 25, 0, 0, 2 * Math.PI);
                     ctx.fill();
 
-                    // Render central product
-                    ctx.drawImage(img, 220, 180, 560, 560);
+                    // POSE: Straight, grounded center hero pose
+                    ctx.save();
+                    ctx.translate(500, 480);
+                    ctx.drawImage(img, -280, -280, 560, 560);
+                    ctx.restore();
 
-                    // Minimal bottom typography
                     if(text) {
-                        ctx.fillStyle = "#1e293b";
+                        ctx.fillStyle = "#0f172a";
                         ctx.font = "bold 26px system-ui, sans-serif";
                         ctx.textAlign = "center";
-                        ctx.letterSpacing = "4px";
-                        ctx.fillText(text, 500, 900);
+                        ctx.letterSpacing = "6px";
+                        ctx.fillText(text, 500, 920);
                     }
                 }
             },
             {
-                name: "Warm Sunlit Editorial",
+                name: "2. Elegant Tilted Pedestal",
                 render: (ctx, img, text) => {
-                    // Sandy/Beige minimalist wall
-                    ctx.fillStyle = "#f5efe6";
+                    // Warm clay studio gradient
+                    ctx.fillStyle = "#f3eee7";
                     ctx.fillRect(0, 0, 1000, 1000);
 
-                    // Draw soft pedestal shadow
+                    // Pedestal platform
                     ctx.fillStyle = "rgba(100, 80, 60, 0.15)";
                     ctx.beginPath();
-                    ctx.ellipse(500, 740, 240, 40, 0, 0, 2 * Math.PI);
+                    ctx.ellipse(500, 740, 250, 40, 0, 0, 2 * Math.PI);
                     ctx.fill();
 
-                    // Draw minimalist product pedestal
-                    ctx.fillStyle = "#e8dfd2";
+                    ctx.fillStyle = "#e0d5c8";
                     ctx.beginPath();
-                    ctx.ellipse(500, 730, 240, 35, 0, 0, 2 * Math.PI);
+                    ctx.ellipse(500, 730, 250, 35, 0, 0, 2 * Math.PI);
                     ctx.fill();
-                    ctx.fillRect(260, 730, 480, 50);
+                    ctx.fillRect(250, 730, 500, 50);
 
-                    // Draw product
-                    ctx.drawImage(img, 240, 200, 520, 520);
+                    // POSE: Grounded on pedestal with dynamic slight right tilt
+                    ctx.save();
+                    ctx.translate(500, 480);
+                    ctx.rotate(0.08); // Slight rotation
+                    ctx.drawImage(img, -250, -250, 500, 500);
+                    ctx.restore();
 
-                    // Tropical/Geometric shadow casting (simulated window blinds)
+                    // Shadow Casting (simulating Venetian window blind overlay)
                     ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
                     ctx.save();
-                    ctx.rotate(-0.25);
-                    for(let x = -200; x < 1200; x += 150) {
-                        ctx.fillRect(x, -500, 60, 2000);
+                    ctx.rotate(-0.3);
+                    for(let x = -200; x < 1200; x += 160) {
+                        ctx.fillRect(x, -500, 55, 2000);
                     }
                     ctx.restore();
 
@@ -362,159 +367,83 @@
                 }
             },
             {
-                name: "Golden Hour Luxury",
+                name: "3. Low Angle Left Lean",
                 render: (ctx, img, text) => {
-                    // Deep luxury gold gradient
+                    // Dark luxury obsidian space
                     let grad = ctx.createRadialGradient(500, 500, 100, 500, 500, 750);
-                    grad.addColorStop(0, '#1c1917');
-                    grad.addColorStop(1, '#0c0a09');
+                    grad.addColorStop(0, '#1a1816');
+                    grad.addColorStop(1, '#090807');
                     ctx.fillStyle = grad;
                     ctx.fillRect(0, 0, 1000, 1000);
 
-                    // Golden back-glow flare
-                    let goldenGlow = ctx.createRadialGradient(500, 450, 10, 500, 450, 300);
-                    goldenGlow.addColorStop(0, 'rgba(234, 179, 8, 0.15)');
-                    goldenGlow.addColorStop(1, 'rgba(0,0,0,0)');
-                    ctx.fillStyle = goldenGlow;
-                    ctx.fillRect(0,0,1000,1000);
-
-                    // Luxurious marble ground reflection base
-                    let shadowGrad = ctx.createRadialGradient(500, 700, 50, 500, 700, 280);
-                    shadowGrad.addColorStop(0, 'rgba(0, 0, 0, 0.7)');
+                    // Floor reflection glow
+                    let shadowGrad = ctx.createRadialGradient(420, 730, 20, 420, 730, 240);
+                    shadowGrad.addColorStop(0, 'rgba(0, 0, 0, 0.8)');
                     shadowGrad.addColorStop(1, 'rgba(0,0,0,0)');
                     ctx.fillStyle = shadowGrad;
-                    ctx.fillRect(200, 660, 600, 80);
+                    ctx.fillRect(150, 680, 540, 80);
 
-                    // Golden Border Frame Accent
-                    ctx.strokeStyle = "rgba(234, 179, 8, 0.3)";
-                    ctx.lineWidth = 2;
-                    ctx.strokeRect(50, 50, 900, 900);
+                    // POSE: Lower position, leaning aggressively to the left
+                    ctx.save();
+                    ctx.translate(420, 500);
+                    ctx.rotate(-0.15); // Steep counter-clockwise tilt
+                    ctx.drawImage(img, -240, -240, 480, 480);
+                    ctx.restore();
 
-                    ctx.drawImage(img, 230, 190, 540, 540);
+                    // Modern thin gold lines
+                    ctx.strokeStyle = "rgba(234, 179, 8, 0.25)";
+                    ctx.lineWidth = 1.5;
+                    ctx.strokeRect(60, 60, 880, 880);
 
                     if(text) {
                         ctx.fillStyle = "#eab308";
-                        ctx.font = "bold 24px 'Georgia', serif";
+                        ctx.font = "bold 22px 'Georgia', serif";
                         ctx.textAlign = "center";
-                        ctx.letterSpacing = "6px";
+                        ctx.letterSpacing = "8px";
                         ctx.fillText(text, 500, 910);
                     }
                 }
             },
             {
-                name: "Cyberpunk Neon",
+                name: "4. Futuristic High Float",
                 render: (ctx, img, text) => {
                     // Dark neon slate background
-                    ctx.fillStyle = "#09090b";
+                    ctx.fillStyle = "#0a0a0c";
                     ctx.fillRect(0, 0, 1000, 1000);
 
-                    // Neon grid floor lines
-                    ctx.strokeStyle = "rgba(236, 72, 153, 0.08)";
+                    // Neon floor grid patterns
+                    ctx.strokeStyle = "rgba(6, 182, 212, 0.12)";
                     ctx.lineWidth = 1;
-                    for (let x = 0; x < 1000; x += 50) {
+                    for (let x = 0; x < 1000; x += 60) {
                         ctx.beginPath();
-                        ctx.moveTo(x, 650);
-                        ctx.lineTo(x + (x - 500) * 1.5, 1000);
-                        ctx.stroke();
-                    }
-                    for (let y = 650; y < 1000; y += 35) {
-                        ctx.beginPath();
-                        ctx.moveTo(0, y);
-                        ctx.lineTo(1000, y);
+                        ctx.moveTo(x, 700);
+                        ctx.lineTo(x + (x - 500) * 1.6, 1000);
                         ctx.stroke();
                     }
 
-                    // Electric Cyan & Magenta glows flanking behind
-                    let cyanglow = ctx.createRadialGradient(300, 400, 50, 300, 400, 400);
-                    cyanglow.addColorStop(0, 'rgba(6, 182, 212, 0.18)');
+                    // Cyberpunk lighting glow backing
+                    let cyanglow = ctx.createRadialGradient(500, 400, 10, 500, 400, 350);
+                    cyanglow.addColorStop(0, 'rgba(6, 182, 212, 0.15)');
                     cyanglow.addColorStop(1, 'rgba(0,0,0,0)');
                     ctx.fillStyle = cyanglow;
                     ctx.fillRect(0, 0, 1000, 1000);
 
-                    let magentaglow = ctx.createRadialGradient(700, 500, 50, 700, 500, 400);
-                    magentaglow.addColorStop(0, 'rgba(236, 72, 153, 0.18)');
-                    magentaglow.addColorStop(1, 'rgba(0,0,0,0)');
-                    ctx.fillStyle = magentaglow;
-                    ctx.fillRect(0, 0, 1000, 1000);
-
-                    // Ground reflection shadow
-                    ctx.fillStyle = "rgba(6, 182, 212, 0.25)";
+                    // Floating drop shadow detached below
+                    ctx.fillStyle = "rgba(6, 182, 212, 0.2)";
                     ctx.beginPath();
-                    ctx.ellipse(500, 680, 200, 25, 0, 0, 2 * Math.PI);
+                    ctx.ellipse(500, 810, 150, 15, 0, 0, 2 * Math.PI);
                     ctx.fill();
 
-                    ctx.drawImage(img, 240, 170, 520, 520);
-
-                    if(text) {
-                        ctx.shadowColor = "#ec4899";
-                        ctx.shadowBlur = 15;
-                        ctx.fillStyle = "#ffffff";
-                        ctx.font = "900 30px system-ui, sans-serif";
-                        ctx.textAlign = "center";
-                        ctx.fillText(text, 500, 920);
-                        ctx.shadowBlur = 0; // reset
-                    }
-                }
-            },
-            {
-                name: "Nordic Minimalist Slate",
-                render: (ctx, img, text) => {
-                    // Soft organic slate grey
-                    ctx.fillStyle = "#334155";
-                    ctx.fillRect(0, 0, 1000, 1000);
-
-                    // Soft organic dark floor gradient
-                    let shadow = ctx.createRadialGradient(500, 720, 30, 500, 720, 250);
-                    shadow.addColorStop(0, 'rgba(15, 23, 42, 0.6)');
-                    shadow.addColorStop(1, 'rgba(0,0,0,0)');
-                    ctx.fillStyle = shadow;
-                    ctx.fillRect(200, 680, 600, 80);
-
-                    ctx.drawImage(img, 230, 190, 540, 540);
-
-                    if(text) {
-                        ctx.fillStyle = "#cbd5e1";
-                        ctx.font = "300 24px system-ui, Arial, sans-serif";
-                        ctx.textAlign = "center";
-                        ctx.letterSpacing = "10px";
-                        ctx.fillText(text, 500, 910);
-                    }
-                }
-            },
-            {
-                name: "Ethereal Floating Cloud",
-                render: (ctx, img, text) => {
-                    // Dreamy pink-lavender sky skybox
-                    let grad = ctx.createLinearGradient(0, 0, 0, 1000);
-                    grad.addColorStop(0, '#fae8ff');
-                    grad.addColorStop(0.5, '#f5d0fe');
-                    grad.addColorStop(1, '#e0f2fe');
-                    ctx.fillStyle = grad;
-                    ctx.fillRect(0, 0, 1000, 1000);
-
-                    // Soft blurred cloud effect on bottom
-                    let cloudGlow = ctx.createRadialGradient(500, 800, 50, 500, 800, 400);
-                    cloudGlow.addColorStop(0, 'rgba(255, 255, 255, 0.9)');
-                    cloudGlow.addColorStop(1, 'rgba(255, 255, 255, 0)');
-                    ctx.fillStyle = cloudGlow;
-                    ctx.fillRect(0, 500, 1000, 500);
-
-                    // Draw floating product with slight float offset & tilt
+                    // POSE: Floated high, scaled down, leaning forward slightly
                     ctx.save();
-                    ctx.translate(500, 440);
-                    ctx.rotate(0.06); // 3.5 deg organic floating angle
-                    ctx.drawImage(img, -260, -260, 520, 520);
+                    ctx.translate(500, 410);
+                    ctx.rotate(0.05);
+                    ctx.drawImage(img, -210, -210, 420, 420);
                     ctx.restore();
 
-                    // Subtle disconnected floating ground shadow far below
-                    ctx.fillStyle = "rgba(168, 85, 247, 0.15)";
-                    ctx.beginPath();
-                    ctx.ellipse(500, 780, 160, 22, 0, 0, 2 * Math.PI);
-                    ctx.fill();
-
                     if(text) {
-                        ctx.fillStyle = "#6b21a8";
-                        ctx.font = "bold 26px system-ui, sans-serif";
+                        ctx.fillStyle = "#22d3ee";
+                        ctx.font = "900 28px sans-serif";
                         ctx.textAlign = "center";
                         ctx.letterSpacing = "2px";
                         ctx.fillText(text, 500, 920);
@@ -522,41 +451,97 @@
                 }
             },
             {
-                name: "Mirror Reflection Slate",
+                name: "5. Minimalist Flat-Lay Macro",
                 render: (ctx, img, text) => {
-                    // Modern deep charcoal studio base
-                    ctx.fillStyle = "#18181b";
+                    // Nordic stone background
+                    ctx.fillStyle = "#475569";
                     ctx.fillRect(0, 0, 1000, 1000);
 
-                    // Diagonal split studio floor wall line
-                    ctx.strokeStyle = "rgba(255,255,255,0.05)";
-                    ctx.lineWidth = 2;
-                    ctx.beginPath();
-                    ctx.moveTo(0, 650);
-                    ctx.lineTo(1000, 650);
-                    ctx.stroke();
-
-                    // Draw Mirror Flip Reflection
+                    // POSE: Dynamic flat-lay zoom pose, highly rotated, offset to upper right
                     ctx.save();
-                    ctx.scale(1, -0.4);
-                    // Shift matrix to reflect precisely below product line
-                    ctx.translate(0, -2950); 
-                    ctx.globalAlpha = 0.25;
-                    ctx.drawImage(img, 250, 650, 500, 500);
+                    ctx.translate(560, 420);
+                    ctx.rotate(0.4); // Intense flat-lay diagonal rot
+                    ctx.fillStyle = "rgba(15, 23, 42, 0.25)"; // Close flat shadow
+                    ctx.fillRect(-285, -265, 590, 590); 
+                    ctx.drawImage(img, -290, -290, 580, 580);
                     ctx.restore();
 
-                    // Add a subtle gradient mask overlaying the floor to fade the reflection
-                    let fadeGrad = ctx.createLinearGradient(0, 650, 0, 950);
-                    fadeGrad.addColorStop(0, 'rgba(24, 24, 27, 0)');
-                    fadeGrad.addColorStop(0.8, 'rgba(24, 24, 27, 0.95)');
-                    ctx.fillStyle = fadeGrad;
-                    ctx.fillRect(0, 650, 1000, 350);
+                    if(text) {
+                        ctx.fillStyle = "#cbd5e1";
+                        ctx.font = "300 24px system-ui, Arial, sans-serif";
+                        ctx.textAlign = "center";
+                        ctx.letterSpacing = "10px";
+                        ctx.fillText(text, 500, 920);
+                    }
+                }
+            },
+            {
+                name: "6. Dreamy Sky Float",
+                render: (ctx, img, text) => {
+                    // Soft lavender to sky blue gradient skybox
+                    let grad = ctx.createLinearGradient(0, 0, 0, 1000);
+                    grad.addColorStop(0, '#fdf4ff');
+                    grad.addColorStop(0.5, '#f3e8ff');
+                    grad.addColorStop(1, '#e0f2fe');
+                    ctx.fillStyle = grad;
+                    ctx.fillRect(0, 0, 1000, 1000);
 
-                    // Draw Actual Foreground Product
-                    ctx.drawImage(img, 250, 180, 500, 500);
+                    // POSE: Floating, steep left tilt, pushed slightly to the left channel
+                    ctx.save();
+                    ctx.translate(460, 420);
+                    ctx.rotate(-0.15); // Tilted float
+                    ctx.drawImage(img, -230, -230, 460, 460);
+                    ctx.restore();
+
+                    // Ground shadow far below
+                    ctx.fillStyle = "rgba(168, 85, 247, 0.12)";
+                    ctx.beginPath();
+                    ctx.ellipse(460, 780, 150, 18, 0, 0, 2 * Math.PI);
+                    ctx.fill();
 
                     if(text) {
-                        ctx.fillStyle = "#a1a1aa";
+                        ctx.fillStyle = "#7e22ce";
+                        ctx.font = "bold 26px system-ui, sans-serif";
+                        ctx.textAlign = "center";
+                        ctx.letterSpacing = "4px";
+                        ctx.fillText(text, 500, 920);
+                    }
+                }
+            },
+            {
+                name: "7. Mirror Reflection Split",
+                render: (ctx, img, text) => {
+                    // Dark modern space
+                    ctx.fillStyle = "#111111";
+                    ctx.fillRect(0, 0, 1000, 1000);
+
+                    ctx.strokeStyle = "rgba(255,255,255,0.08)";
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(0, 600);
+                    ctx.lineTo(1000, 600);
+                    ctx.stroke();
+
+                    // POSE: Flipped reflecting stance mirror base
+                    ctx.save();
+                    ctx.scale(1, -0.45);
+                    ctx.translate(0, -2430); 
+                    ctx.globalAlpha = 0.2;
+                    ctx.drawImage(img, 280, 580, 440, 440);
+                    ctx.restore();
+
+                    // Reflection mask
+                    let fadeGrad = ctx.createLinearGradient(0, 600, 0, 950);
+                    fadeGrad.addColorStop(0, 'rgba(17, 17, 17, 0)');
+                    fadeGrad.addColorStop(1, 'rgba(17, 17, 17, 0.95)');
+                    ctx.fillStyle = fadeGrad;
+                    ctx.fillRect(0, 600, 1000, 400);
+
+                    // POSE: Center foreground floating high pose
+                    ctx.drawImage(img, 280, 160, 440, 440);
+
+                    if(text) {
+                        ctx.fillStyle = "#888888";
                         ctx.font = "lighter 24px monospace";
                         ctx.textAlign = "center";
                         ctx.fillText(text, 500, 920);
@@ -564,36 +549,32 @@
                 }
             },
             {
-                name: "Stage Spotlight",
+                name: "8. Dramatic Spotlight Edge",
                 render: (ctx, img, text) => {
-                    // Deep dark background scene
-                    ctx.fillStyle = "#0b0f19";
+                    ctx.fillStyle = "#080c14";
                     ctx.fillRect(0, 0, 1000, 1000);
 
-                    // Conical spotlight rays from ceiling
-                    ctx.fillStyle = "rgba(255, 255, 255, 0.03)";
+                    // Spotlight path projection
+                    ctx.fillStyle = "rgba(255, 255, 255, 0.04)";
                     ctx.beginPath();
-                    ctx.moveTo(500, -100);
-                    ctx.lineTo(250, 800);
-                    ctx.lineTo(750, 800);
+                    ctx.moveTo(700, -100);
+                    ctx.lineTo(450, 900);
+                    ctx.lineTo(950, 900);
                     ctx.closePath();
                     ctx.fill();
 
-                    // Heavy bottom shadow on stage
+                    // Ground shadow
                     ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
                     ctx.beginPath();
-                    ctx.ellipse(500, 720, 190, 25, 0, 0, 2 * Math.PI);
+                    ctx.ellipse(700, 750, 180, 20, 0, 0, 2 * Math.PI);
                     ctx.fill();
 
-                    // Modern Stage pedestal platform
-                    ctx.fillStyle = "#1e293b";
-                    ctx.beginPath();
-                    ctx.ellipse(500, 710, 190, 25, 0, 0, 2 * Math.PI);
-                    ctx.fill();
-                    ctx.fillStyle = "#0f172a";
-                    ctx.fillRect(310, 710, 380, 40);
-
-                    ctx.drawImage(img, 260, 210, 480, 480);
+                    // POSE: Off-centered right-aligned pose on dramatic stage edge
+                    ctx.save();
+                    ctx.translate(700, 520);
+                    ctx.rotate(0.08); // Soft stylish tilt
+                    ctx.drawImage(img, -230, -230, 460, 460);
+                    ctx.restore();
 
                     if(text) {
                         ctx.fillStyle = "#38bdf8";
@@ -604,33 +585,37 @@
                 }
             },
             {
-                name: "Pop Art Poster",
+                name: "9. Abstract Pop Offset",
                 render: (ctx, img, text) => {
-                    // High-vibrancy dual-tone split background
+                    // High-vibrancy pop split panels
                     ctx.fillStyle = "#ff007f";
                     ctx.fillRect(0, 0, 500, 1000);
                     ctx.fillStyle = "#00e5ff";
                     ctx.fillRect(500, 0, 500, 1000);
 
-                    // Thick graphic black drop-shadow behind product
-                    ctx.fillStyle = "#1e293b";
+                    // POSE: Abstract drop shadow offset and deep tilt
+                    ctx.fillStyle = "#111111";
                     ctx.save();
-                    ctx.translate(22, 22);
-                    ctx.drawImage(img, 240, 190, 520, 520);
+                    ctx.translate(475, 475);
+                    ctx.rotate(-0.25);
+                    ctx.drawImage(img, -230, -230, 500, 500); // Shadow representation
                     ctx.restore();
 
-                    // Main Product Draw on top
-                    ctx.drawImage(img, 240, 190, 520, 520);
+                    // POSE: Foreground overlapping pop tilt
+                    ctx.save();
+                    ctx.translate(450, 450);
+                    ctx.rotate(-0.25); // Heavy dynamic tilt
+                    ctx.drawImage(img, -230, -230, 500, 500);
+                    ctx.restore();
 
-                    // Heavy block yellow background text badge
                     if(text) {
                         ctx.fillStyle = "#ffff00";
                         ctx.fillRect(200, 840, 600, 65);
-                        ctx.strokeStyle = "#1e293b";
+                        ctx.strokeStyle = "#111111";
                         ctx.lineWidth = 4;
                         ctx.strokeRect(200, 840, 600, 65);
 
-                        ctx.fillStyle = "#1e293b";
+                        ctx.fillStyle = "#111111";
                         ctx.font = "black 28px Arial, sans-serif";
                         ctx.fontWeight = "900";
                         ctx.textAlign = "center";
@@ -640,9 +625,9 @@
                 }
             },
             {
-                name: "Corporate Sage Minimalist",
+                name: "10. Luxury Gallery Inlay",
                 render: (ctx, img, text) => {
-                    // Modern interior organic Green/Sage palette
+                    // Modern sage/olive palette frame
                     ctx.fillStyle = "#e2e8f0";
                     ctx.fillRect(0, 0, 1000, 1000);
 
@@ -652,18 +637,21 @@
                     ctx.fillStyle = softSage;
                     ctx.fillRect(80, 80, 840, 840);
 
-                    // Frame border inlay
                     ctx.strokeStyle = "#ffffff";
                     ctx.lineWidth = 4;
-                    ctx.strokeRect(100, 100, 800, 800);
+                    ctx.strokeRect(110, 110, 780, 780);
 
-                    // Ground drop shadow
+                    // Lower base ground shadow
                     ctx.fillStyle = "rgba(15, 23, 42, 0.2)";
                     ctx.beginPath();
-                    ctx.ellipse(500, 710, 230, 30, 0, 0, 2 * Math.PI);
+                    ctx.ellipse(500, 750, 240, 25, 0, 0, 2 * Math.PI);
                     ctx.fill();
 
-                    ctx.drawImage(img, 250, 200, 500, 500);
+                    // POSE: Pushed down and scaled up to showcase detail (Macro Focus Pose)
+                    ctx.save();
+                    ctx.translate(500, 480);
+                    ctx.drawImage(img, -270, -270, 540, 540);
+                    ctx.restore();
 
                     if(text) {
                         ctx.fillStyle = "#ffffff";
@@ -682,17 +670,16 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.save();
             
-            // Execute simulated layout scene
+            // Execute environment render & pose matrix calculations
             shoot.render(ctx, uploadedImage, titleText);
             
             ctx.restore();
 
-            // Run pixel micro-adjusters to ensure separate files are uniquely hashed
+            // Run pixel micro-adjusters for unique digital footprints
             applyByteLevelNoise(ctx, canvas.width, canvas.height, (i + 1) * 0.17);
 
-            // Generate physical image object assets
+            // Export physical image asset
             await new Promise((resolve) => {
-                // Generates high fidelity JPEG at high compression optimization parameters
                 canvas.toBlob((blob) => {
                     const fileSizeInKB = (blob.size / 1024).toFixed(1);
                     const filename = `Product_Photoshoot_${i + 1}.jpg`;
@@ -725,7 +712,7 @@
 
         generateBtn.disabled = false;
         downloadAllBtn.style.display = 'block';
-        statusUpdate.innerText = "Complete! Constructed 10 stunning photoshoot assets.";
+        statusUpdate.innerText = "Complete! Constructed 10 stunningly posed photoshoot assets.";
     });
 
     downloadAllBtn.addEventListener('click', function() {
