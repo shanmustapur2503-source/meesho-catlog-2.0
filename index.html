@@ -23,7 +23,7 @@
         }
 
         .container {
-            max-width: 1300px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
@@ -168,7 +168,7 @@
             height: auto;
             aspect-ratio: 1/1;
             object-fit: contain;
-            background: #f8fafc;
+            background: #ffffff;
             border-radius: 6px;
             border: 1px solid #f1f5f9;
         }
@@ -205,7 +205,7 @@
 <div class="container">
     <header>
         <h1>Product Photoshoot Engine</h1>
-        <p>Generates 10 distinct, uniquely-posed studio scenes at 1000x1000px</p>
+        <p>Generates 20 distinct, uniquely-posed studio scenes with clean white backgrounds and custom lining structures at 1000x1000px</p>
     </header>
 
     <div class="main-layout">
@@ -220,7 +220,7 @@
                 <input type="text" id="productTitle" placeholder="e.g., COUTURE SNEAKERS" value="PREMIUM QUALITY">
             </div>
 
-            <button id="generateBtn" class="btn" disabled>Generate 10 Photoshoots</button>
+            <button id="generateBtn" class="btn" disabled>Generate 20 Photoshoots</button>
             <button id="downloadAllBtn" class="btn btn-download-all" style="display: none;">Download All Images (ZIP)</button>
             <div id="statusUpdate" class="status-message"></div>
         </div>
@@ -267,12 +267,12 @@
         reader.readAsDataURL(e.target.files[0]);
     });
 
-    // Byte-level micro-pixel deviations to ensure unique metadata and hashes for catalog listings
+    // Micro-pixel deviation injection
     function applyByteLevelNoise(context, width, height, structuralSeed) {
         const imgData = context.getImageData(0, 0, width, height);
         const data = imgData.data;
         for (let i = 0; i < data.length; i += 4) {
-            const noise = (Math.sin(i * structuralSeed) * 1.5); 
+            const noise = (Math.sin(i * structuralSeed) * 1.2); 
             data[i]     = Math.min(255, Math.max(0, data[i] + noise));     // R
             data[i + 1] = Math.min(255, Math.max(0, data[i + 1] + noise)); // G
             data[i + 2] = Math.min(255, Math.max(0, data[i + 2] + noise)); // B
@@ -280,6 +280,13 @@
         context.putImageData(imgData, 0, 0);
     }
 
+    // Initialize 100% white base background
+    function drawWhiteBase(ctx) {
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, 1000, 1000);
+    }
+
+    // Main photoshoot definitions generator (20 highly unique poses & broad background lining architectures)
     generateBtn.addEventListener('click', async function() {
         if (!uploadedImage) return;
 
@@ -290,22 +297,24 @@
         
         const titleText = productTitleInput.value.trim().toUpperCase();
 
-        // High-end photoshoots utilizing custom offsets, scales, rotations, and reflection states for 10 unique poses
         const shoots = [
             {
-                name: "1. Classic Studio Centered",
+                name: "1. Classical Studio Center",
                 render: (ctx, img, text) => {
-                    // Back wall radial gradient
-                    let grad = ctx.createRadialGradient(500, 500, 50, 500, 500, 700);
-                    grad.addColorStop(0, '#ffffff');
-                    grad.addColorStop(1, '#e2e8f0');
-                    ctx.fillStyle = grad;
-                    ctx.fillRect(0, 0, 1000, 1000);
+                    drawWhiteBase(ctx);
 
-                    // Drop Shadow underneath
-                    ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+                    // Background: Bold horizontal centering bar
+                    ctx.strokeStyle = "#e2e8f0";
+                    ctx.lineWidth = 45;
                     ctx.beginPath();
-                    ctx.ellipse(500, 750, 220, 25, 0, 0, 2 * Math.PI);
+                    ctx.moveTo(0, 500);
+                    ctx.lineTo(1000, 500);
+                    ctx.stroke();
+
+                    // Ground Drop Shadow
+                    ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
+                    ctx.beginPath();
+                    ctx.ellipse(500, 770, 220, 25, 0, 0, 2 * Math.PI);
                     ctx.fill();
 
                     // POSE: Straight, grounded center hero pose
@@ -326,17 +335,23 @@
             {
                 name: "2. Elegant Tilted Pedestal",
                 render: (ctx, img, text) => {
-                    // Warm clay studio gradient
-                    ctx.fillStyle = "#f3eee7";
-                    ctx.fillRect(0, 0, 1000, 1000);
+                    drawWhiteBase(ctx);
 
-                    // Pedestal platform
-                    ctx.fillStyle = "rgba(100, 80, 60, 0.15)";
+                    // Background: Bold structural diagonal stripe
+                    ctx.strokeStyle = "#cbd5e1";
+                    ctx.lineWidth = 70;
+                    ctx.beginPath();
+                    ctx.moveTo(-100, -100);
+                    ctx.lineTo(1100, 1100);
+                    ctx.stroke();
+
+                    // Base Pedestal
+                    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
                     ctx.beginPath();
                     ctx.ellipse(500, 740, 250, 40, 0, 0, 2 * Math.PI);
                     ctx.fill();
 
-                    ctx.fillStyle = "#e0d5c8";
+                    ctx.fillStyle = "#e2e8f0";
                     ctx.beginPath();
                     ctx.ellipse(500, 730, 250, 35, 0, 0, 2 * Math.PI);
                     ctx.fill();
@@ -345,21 +360,12 @@
                     // POSE: Grounded on pedestal with dynamic slight right tilt
                     ctx.save();
                     ctx.translate(500, 480);
-                    ctx.rotate(0.08); // Slight rotation
+                    ctx.rotate(0.08); 
                     ctx.drawImage(img, -250, -250, 500, 500);
                     ctx.restore();
 
-                    // Shadow Casting (simulating Venetian window blind overlay)
-                    ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
-                    ctx.save();
-                    ctx.rotate(-0.3);
-                    for(let x = -200; x < 1200; x += 160) {
-                        ctx.fillRect(x, -500, 55, 2000);
-                    }
-                    ctx.restore();
-
                     if(text) {
-                        ctx.fillStyle = "#63503d";
+                        ctx.fillStyle = "#475569";
                         ctx.font = "italic serif 28px";
                         ctx.textAlign = "center";
                         ctx.fillText(text, 500, 930);
@@ -369,35 +375,27 @@
             {
                 name: "3. Low Angle Left Lean",
                 render: (ctx, img, text) => {
-                    // Dark luxury obsidian space
-                    let grad = ctx.createRadialGradient(500, 500, 100, 500, 500, 750);
-                    grad.addColorStop(0, '#1a1816');
-                    grad.addColorStop(1, '#090807');
-                    ctx.fillStyle = grad;
-                    ctx.fillRect(0, 0, 1000, 1000);
+                    drawWhiteBase(ctx);
+
+                    // Background: Intersecting broad modern grid lines
+                    ctx.strokeStyle = "#cbd5e1";
+                    ctx.lineWidth = 30;
+                    ctx.strokeRect(100, 100, 800, 800);
 
                     // Floor reflection glow
-                    let shadowGrad = ctx.createRadialGradient(420, 730, 20, 420, 730, 240);
-                    shadowGrad.addColorStop(0, 'rgba(0, 0, 0, 0.8)');
-                    shadowGrad.addColorStop(1, 'rgba(0,0,0,0)');
-                    ctx.fillStyle = shadowGrad;
+                    ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
                     ctx.fillRect(150, 680, 540, 80);
 
                     // POSE: Lower position, leaning aggressively to the left
                     ctx.save();
                     ctx.translate(420, 500);
-                    ctx.rotate(-0.15); // Steep counter-clockwise tilt
+                    ctx.rotate(-0.15); 
                     ctx.drawImage(img, -240, -240, 480, 480);
                     ctx.restore();
 
-                    // Modern thin gold lines
-                    ctx.strokeStyle = "rgba(234, 179, 8, 0.25)";
-                    ctx.lineWidth = 1.5;
-                    ctx.strokeRect(60, 60, 880, 880);
-
                     if(text) {
-                        ctx.fillStyle = "#eab308";
-                        ctx.font = "bold 22px 'Georgia', serif";
+                        ctx.fillStyle = "#1e293b";
+                        ctx.font = "bold 22px system-ui, sans-serif";
                         ctx.textAlign = "center";
                         ctx.letterSpacing = "8px";
                         ctx.fillText(text, 500, 910);
@@ -407,29 +405,20 @@
             {
                 name: "4. Futuristic High Float",
                 render: (ctx, img, text) => {
-                    // Dark neon slate background
-                    ctx.fillStyle = "#0a0a0c";
-                    ctx.fillRect(0, 0, 1000, 1000);
+                    drawWhiteBase(ctx);
 
-                    // Neon floor grid patterns
-                    ctx.strokeStyle = "rgba(6, 182, 212, 0.12)";
-                    ctx.lineWidth = 1;
-                    for (let x = 0; x < 1000; x += 60) {
+                    // Background: Multi parallel vertical tracking lines
+                    ctx.strokeStyle = "#e2e8f0";
+                    ctx.lineWidth = 40;
+                    for (let x = 200; x <= 800; x += 300) {
                         ctx.beginPath();
-                        ctx.moveTo(x, 700);
-                        ctx.lineTo(x + (x - 500) * 1.6, 1000);
+                        ctx.moveTo(x, 0);
+                        ctx.lineTo(x, 1000);
                         ctx.stroke();
                     }
 
-                    // Cyberpunk lighting glow backing
-                    let cyanglow = ctx.createRadialGradient(500, 400, 10, 500, 400, 350);
-                    cyanglow.addColorStop(0, 'rgba(6, 182, 212, 0.15)');
-                    cyanglow.addColorStop(1, 'rgba(0,0,0,0)');
-                    ctx.fillStyle = cyanglow;
-                    ctx.fillRect(0, 0, 1000, 1000);
-
                     // Floating drop shadow detached below
-                    ctx.fillStyle = "rgba(6, 182, 212, 0.2)";
+                    ctx.fillStyle = "rgba(0, 0, 0, 0.07)";
                     ctx.beginPath();
                     ctx.ellipse(500, 810, 150, 15, 0, 0, 2 * Math.PI);
                     ctx.fill();
@@ -442,7 +431,7 @@
                     ctx.restore();
 
                     if(text) {
-                        ctx.fillStyle = "#22d3ee";
+                        ctx.fillStyle = "#0f172a";
                         ctx.font = "900 28px sans-serif";
                         ctx.textAlign = "center";
                         ctx.letterSpacing = "2px";
@@ -453,22 +442,36 @@
             {
                 name: "5. Minimalist Flat-Lay Macro",
                 render: (ctx, img, text) => {
-                    // Nordic stone background
-                    ctx.fillStyle = "#475569";
-                    ctx.fillRect(0, 0, 1000, 1000);
+                    drawWhiteBase(ctx);
+
+                    // Background: Solid corner diagonal geometric border
+                    ctx.fillStyle = "#f1f5f9";
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.lineTo(400, 0);
+                    ctx.lineTo(0, 400);
+                    ctx.closePath();
+                    ctx.fill();
+
+                    ctx.strokeStyle = "#cbd5e1";
+                    ctx.lineWidth = 35;
+                    ctx.beginPath();
+                    ctx.moveTo(1000, 0);
+                    ctx.lineTo(0, 1000);
+                    ctx.stroke();
 
                     // POSE: Dynamic flat-lay zoom pose, highly rotated, offset to upper right
                     ctx.save();
                     ctx.translate(560, 420);
-                    ctx.rotate(0.4); // Intense flat-lay diagonal rot
-                    ctx.fillStyle = "rgba(15, 23, 42, 0.25)"; // Close flat shadow
+                    ctx.rotate(0.4); 
+                    ctx.fillStyle = "rgba(0, 0, 0, 0.05)"; 
                     ctx.fillRect(-285, -265, 590, 590); 
                     ctx.drawImage(img, -290, -290, 580, 580);
                     ctx.restore();
 
                     if(text) {
-                        ctx.fillStyle = "#cbd5e1";
-                        ctx.font = "300 24px system-ui, Arial, sans-serif";
+                        ctx.fillStyle = "#334155";
+                        ctx.font = "300 24px system-ui, sans-serif";
                         ctx.textAlign = "center";
                         ctx.letterSpacing = "10px";
                         ctx.fillText(text, 500, 920);
@@ -476,31 +479,37 @@
                 }
             },
             {
-                name: "6. Dreamy Sky Float",
+                name: "6. Concentric Circles",
                 render: (ctx, img, text) => {
-                    // Soft lavender to sky blue gradient skybox
-                    let grad = ctx.createLinearGradient(0, 0, 0, 1000);
-                    grad.addColorStop(0, '#fdf4ff');
-                    grad.addColorStop(0.5, '#f3e8ff');
-                    grad.addColorStop(1, '#e0f2fe');
-                    ctx.fillStyle = grad;
-                    ctx.fillRect(0, 0, 1000, 1000);
+                    drawWhiteBase(ctx);
 
-                    // POSE: Floating, steep left tilt, pushed slightly to the left channel
-                    ctx.save();
-                    ctx.translate(460, 420);
-                    ctx.rotate(-0.15); // Tilted float
-                    ctx.drawImage(img, -230, -230, 460, 460);
-                    ctx.restore();
+                    // Background: Concentric aesthetic outline rings
+                    ctx.strokeStyle = "#e2e8f0";
+                    ctx.lineWidth = 30;
+                    ctx.beginPath();
+                    ctx.arc(500, 500, 350, 0, 2 * Math.PI);
+                    ctx.stroke();
 
-                    // Ground shadow far below
-                    ctx.fillStyle = "rgba(168, 85, 247, 0.12)";
+                    ctx.lineWidth = 15;
+                    ctx.beginPath();
+                    ctx.arc(500, 500, 200, 0, 2 * Math.PI);
+                    ctx.stroke();
+
+                    // Floor shadow
+                    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
                     ctx.beginPath();
                     ctx.ellipse(460, 780, 150, 18, 0, 0, 2 * Math.PI);
                     ctx.fill();
 
+                    // POSE: Floating, steep left tilt, pushed slightly left
+                    ctx.save();
+                    ctx.translate(460, 420);
+                    ctx.rotate(-0.15); 
+                    ctx.drawImage(img, -230, -230, 460, 460);
+                    ctx.restore();
+
                     if(text) {
-                        ctx.fillStyle = "#7e22ce";
+                        ctx.fillStyle = "#475569";
                         ctx.font = "bold 26px system-ui, sans-serif";
                         ctx.textAlign = "center";
                         ctx.letterSpacing = "4px";
@@ -509,39 +518,32 @@
                 }
             },
             {
-                name: "7. Mirror Reflection Split",
+                name: "7. Sunburst Ray",
                 render: (ctx, img, text) => {
-                    // Dark modern space
-                    ctx.fillStyle = "#111111";
-                    ctx.fillRect(0, 0, 1000, 1000);
+                    drawWhiteBase(ctx);
 
-                    ctx.strokeStyle = "rgba(255,255,255,0.08)";
-                    ctx.lineWidth = 1;
-                    ctx.beginPath();
-                    ctx.moveTo(0, 600);
-                    ctx.lineTo(1000, 600);
-                    ctx.stroke();
+                    // Background: Bold modern architectural sunburst rays
+                    ctx.strokeStyle = "#f1f5f9";
+                    ctx.lineWidth = 40;
+                    for (let angle = 0; angle < Math.PI * 2; angle += Math.PI / 6) {
+                        ctx.beginPath();
+                        ctx.moveTo(500, 500);
+                        ctx.lineTo(500 + Math.cos(angle) * 800, 500 + Math.sin(angle) * 800);
+                        ctx.stroke();
+                    }
 
-                    // POSE: Flipped reflecting stance mirror base
+                    // Floor platform
+                    ctx.fillStyle = "#e2e8f0";
+                    ctx.fillRect(100, 650, 800, 15);
+
+                    // POSE: High ground stance, clean scale
                     ctx.save();
-                    ctx.scale(1, -0.45);
-                    ctx.translate(0, -2430); 
-                    ctx.globalAlpha = 0.2;
-                    ctx.drawImage(img, 280, 580, 440, 440);
+                    ctx.translate(500, 450);
+                    ctx.drawImage(img, -240, -240, 480, 480);
                     ctx.restore();
 
-                    // Reflection mask
-                    let fadeGrad = ctx.createLinearGradient(0, 600, 0, 950);
-                    fadeGrad.addColorStop(0, 'rgba(17, 17, 17, 0)');
-                    fadeGrad.addColorStop(1, 'rgba(17, 17, 17, 0.95)');
-                    ctx.fillStyle = fadeGrad;
-                    ctx.fillRect(0, 600, 1000, 400);
-
-                    // POSE: Center foreground floating high pose
-                    ctx.drawImage(img, 280, 160, 440, 440);
-
                     if(text) {
-                        ctx.fillStyle = "#888888";
+                        ctx.fillStyle = "#0f172a";
                         ctx.font = "lighter 24px monospace";
                         ctx.textAlign = "center";
                         ctx.fillText(text, 500, 920);
@@ -549,35 +551,36 @@
                 }
             },
             {
-                name: "8. Dramatic Spotlight Edge",
+                name: "8. Bold Split Stripe",
                 render: (ctx, img, text) => {
-                    ctx.fillStyle = "#080c14";
-                    ctx.fillRect(0, 0, 1000, 1000);
+                    drawWhiteBase(ctx);
 
-                    // Spotlight path projection
-                    ctx.fillStyle = "rgba(255, 255, 255, 0.04)";
+                    // Background: Solid bold off-center structural bar
+                    ctx.fillStyle = "#f1f5f9";
+                    ctx.fillRect(600, 0, 300, 1000);
+
+                    ctx.strokeStyle = "#cbd5e1";
+                    ctx.lineWidth = 50;
                     ctx.beginPath();
-                    ctx.moveTo(700, -100);
-                    ctx.lineTo(450, 900);
-                    ctx.lineTo(950, 900);
-                    ctx.closePath();
-                    ctx.fill();
+                    ctx.moveTo(600, 0);
+                    ctx.lineTo(600, 1000);
+                    ctx.stroke();
 
-                    // Ground shadow
-                    ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+                    // Floor Shadow
+                    ctx.fillStyle = "rgba(0,0,0,0.06)";
                     ctx.beginPath();
                     ctx.ellipse(700, 750, 180, 20, 0, 0, 2 * Math.PI);
                     ctx.fill();
 
-                    // POSE: Off-centered right-aligned pose on dramatic stage edge
+                    // POSE: Off-centered right-aligned pose
                     ctx.save();
                     ctx.translate(700, 520);
-                    ctx.rotate(0.08); // Soft stylish tilt
+                    ctx.rotate(0.08); 
                     ctx.drawImage(img, -230, -230, 460, 460);
                     ctx.restore();
 
                     if(text) {
-                        ctx.fillStyle = "#38bdf8";
+                        ctx.fillStyle = "#0f172a";
                         ctx.font = "bold 26px system-ui, sans-serif";
                         ctx.textAlign = "center";
                         ctx.fillText(text, 500, 910);
@@ -585,80 +588,491 @@
                 }
             },
             {
-                name: "9. Abstract Pop Offset",
+                name: "9. Chevron Modern",
                 render: (ctx, img, text) => {
-                    // High-vibrancy pop split panels
-                    ctx.fillStyle = "#ff007f";
-                    ctx.fillRect(0, 0, 500, 1000);
-                    ctx.fillStyle = "#00e5ff";
-                    ctx.fillRect(500, 0, 500, 1000);
+                    drawWhiteBase(ctx);
 
-                    // POSE: Abstract drop shadow offset and deep tilt
-                    ctx.fillStyle = "#111111";
-                    ctx.save();
-                    ctx.translate(475, 475);
-                    ctx.rotate(-0.25);
-                    ctx.drawImage(img, -230, -230, 500, 500); // Shadow representation
-                    ctx.restore();
+                    // Background: Bold architectural Chevron lining
+                    ctx.strokeStyle = "#cbd5e1";
+                    ctx.lineWidth = 55;
+                    ctx.lineJoin = "miter";
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(-100, 300);
+                    ctx.lineTo(500, 600);
+                    ctx.lineTo(1100, 300);
+                    ctx.stroke();
 
-                    // POSE: Foreground overlapping pop tilt
+                    ctx.beginPath();
+                    ctx.moveTo(-100, 500);
+                    ctx.lineTo(500, 800);
+                    ctx.lineTo(1100, 500);
+                    ctx.stroke();
+
+                    // Shadow representation
+                    ctx.fillStyle = "rgba(0,0,0,0.08)";
                     ctx.save();
                     ctx.translate(450, 450);
-                    ctx.rotate(-0.25); // Heavy dynamic tilt
-                    ctx.drawImage(img, -230, -230, 500, 500);
+                    ctx.rotate(-0.25);
+                    ctx.fillRect(-220, -220, 440, 440);
+                    ctx.restore();
+
+                    // POSE: Foreground dynamic pop tilt
+                    ctx.save();
+                    ctx.translate(450, 450);
+                    ctx.rotate(-0.25); 
+                    ctx.drawImage(img, -230, -230, 460, 460);
                     ctx.restore();
 
                     if(text) {
-                        ctx.fillStyle = "#ffff00";
-                        ctx.fillRect(200, 840, 600, 65);
-                        ctx.strokeStyle = "#111111";
-                        ctx.lineWidth = 4;
-                        ctx.strokeRect(200, 840, 600, 65);
-
-                        ctx.fillStyle = "#111111";
-                        ctx.font = "black 28px Arial, sans-serif";
-                        ctx.fontWeight = "900";
+                        ctx.fillStyle = "#1e293b";
+                        ctx.font = "900 28px Arial, sans-serif";
                         ctx.textAlign = "center";
-                        ctx.textBaseline = "middle";
-                        ctx.fillText(text, 500, 872);
+                        ctx.fillText(text, 500, 920);
                     }
                 }
             },
             {
-                name: "10. Luxury Gallery Inlay",
+                name: "10. Triple Accent Stripes",
                 render: (ctx, img, text) => {
-                    // Modern sage/olive palette frame
-                    ctx.fillStyle = "#e2e8f0";
-                    ctx.fillRect(0, 0, 1000, 1000);
+                    drawWhiteBase(ctx);
 
-                    let softSage = ctx.createLinearGradient(0,0,1000,1000);
-                    softSage.addColorStop(0, "#cbd5e1");
-                    softSage.addColorStop(1, "#94a3b8");
-                    ctx.fillStyle = softSage;
-                    ctx.fillRect(80, 80, 840, 840);
-
-                    ctx.strokeStyle = "#ffffff";
-                    ctx.lineWidth = 4;
-                    ctx.strokeRect(110, 110, 780, 780);
+                    // Background: Parallel bold diagonal bands
+                    ctx.strokeStyle = "#e2e8f0";
+                    ctx.lineWidth = 45;
+                    for (let offset = -200; offset <= 400; offset += 300) {
+                        ctx.beginPath();
+                        ctx.moveTo(-100 + offset, -100);
+                        ctx.lineTo(900 + offset, 900);
+                        ctx.stroke();
+                    }
 
                     // Lower base ground shadow
-                    ctx.fillStyle = "rgba(15, 23, 42, 0.2)";
+                    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
                     ctx.beginPath();
                     ctx.ellipse(500, 750, 240, 25, 0, 0, 2 * Math.PI);
                     ctx.fill();
 
-                    // POSE: Pushed down and scaled up to showcase detail (Macro Focus Pose)
+                    // POSE: Detailed macro-focus pose
                     ctx.save();
                     ctx.translate(500, 480);
                     ctx.drawImage(img, -270, -270, 540, 540);
                     ctx.restore();
 
                     if(text) {
-                        ctx.fillStyle = "#ffffff";
+                        ctx.fillStyle = "#334155";
                         ctx.font = "medium 24px system-ui, Arial";
                         ctx.textAlign = "center";
                         ctx.letterSpacing = "8px";
-                        ctx.fillText(text, 500, 830);
+                        ctx.fillText(text, 500, 910);
+                    }
+                }
+            },
+            {
+                name: "11. Isometric Cube Outlines",
+                render: (ctx, img, text) => {
+                    drawWhiteBase(ctx);
+
+                    // Background: 3D Isometric structural lines
+                    ctx.strokeStyle = "#cbd5e1";
+                    ctx.lineWidth = 25;
+                    
+                    // Cube Draw
+                    ctx.beginPath();
+                    ctx.moveTo(500, 200);
+                    ctx.lineTo(850, 400);
+                    ctx.lineTo(850, 800);
+                    ctx.lineTo(500, 600);
+                    ctx.closePath();
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.moveTo(500, 200);
+                    ctx.lineTo(150, 400);
+                    ctx.lineTo(150, 800);
+                    ctx.lineTo(500, 600);
+                    ctx.closePath();
+                    ctx.stroke();
+
+                    // Product Shadow
+                    ctx.fillStyle = "rgba(0,0,0,0.06)";
+                    ctx.beginPath();
+                    ctx.ellipse(500, 720, 190, 20, 0, 0, 2 * Math.PI);
+                    ctx.fill();
+
+                    // POSE: Elevated center float, slight tilt
+                    ctx.save();
+                    ctx.translate(500, 460);
+                    ctx.rotate(0.12);
+                    ctx.drawImage(img, -240, -240, 480, 480);
+                    ctx.restore();
+
+                    if(text) {
+                        ctx.fillStyle = "#1e293b";
+                        ctx.font = "bold 24px system-ui";
+                        ctx.textAlign = "center";
+                        ctx.letterSpacing = "5px";
+                        ctx.fillText(text, 500, 920);
+                    }
+                }
+            },
+            {
+                name: "12. Offset Intersecting Cross",
+                render: (ctx, img, text) => {
+                    drawWhiteBase(ctx);
+
+                    // Background: Clean thick offset cross lines
+                    ctx.strokeStyle = "#f1f5f9";
+                    ctx.lineWidth = 120;
+                    
+                    // Vertical bar
+                    ctx.beginPath();
+                    ctx.moveTo(300, 0);
+                    ctx.lineTo(300, 1000);
+                    ctx.stroke();
+
+                    // Horizontal bar
+                    ctx.beginPath();
+                    ctx.moveTo(0, 400);
+                    ctx.lineTo(1000, 400);
+                    ctx.stroke();
+
+                    // Structural border outline line
+                    ctx.strokeStyle = "#e2e8f0";
+                    ctx.lineWidth = 20;
+                    ctx.strokeRect(50, 50, 900, 900);
+
+                    // Floor Shadow
+                    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+                    ctx.beginPath();
+                    ctx.ellipse(520, 750, 220, 22, 0, 0, 2 * Math.PI);
+                    ctx.fill();
+
+                    // POSE: Centered, straight stance leaning forward slightly
+                    ctx.save();
+                    ctx.translate(500, 470);
+                    ctx.drawImage(img, -260, -260, 520, 520);
+                    ctx.restore();
+
+                    if(text) {
+                        ctx.fillStyle = "#0f172a";
+                        ctx.font = "bold 25px Arial";
+                        ctx.textAlign = "center";
+                        ctx.letterSpacing = "7px";
+                        ctx.fillText(text, 500, 915);
+                    }
+                }
+            },
+            {
+                name: "13. Triangle Prism Frame",
+                render: (ctx, img, text) => {
+                    drawWhiteBase(ctx);
+
+                    // Background: Broad structural triangle lines
+                    ctx.strokeStyle = "#cbd5e1";
+                    ctx.lineWidth = 35;
+                    ctx.beginPath();
+                    ctx.moveTo(500, 150);
+                    ctx.lineTo(900, 800);
+                    ctx.lineTo(100, 800);
+                    ctx.closePath();
+                    ctx.stroke();
+
+                    // Shadow
+                    ctx.fillStyle = "rgba(0,0,0,0.06)";
+                    ctx.beginPath();
+                    ctx.ellipse(500, 780, 250, 30, 0, 0, 2 * Math.PI);
+                    ctx.fill();
+
+                    // POSE: Lower center focus, scaled up
+                    ctx.save();
+                    ctx.translate(500, 520);
+                    ctx.rotate(-0.04);
+                    ctx.drawImage(img, -270, -270, 540, 540);
+                    ctx.restore();
+
+                    if(text) {
+                        ctx.fillStyle = "#475569";
+                        ctx.font = "italic 26px serif";
+                        ctx.textAlign = "center";
+                        ctx.fillText(text, 500, 930);
+                    }
+                }
+            },
+            {
+                name: "14. Concentric Structural Squares",
+                render: (ctx, img, text) => {
+                    drawWhiteBase(ctx);
+
+                    // Background: Nested broad clean square boundaries
+                    ctx.strokeStyle = "#e2e8f0";
+                    ctx.lineWidth = 40;
+                    ctx.strokeRect(150, 150, 700, 700);
+
+                    ctx.strokeStyle = "#f1f5f9";
+                    ctx.lineWidth = 20;
+                    ctx.strokeRect(300, 300, 400, 400);
+
+                    // Floating drop shadow
+                    ctx.fillStyle = "rgba(0,0,0,0.05)";
+                    ctx.beginPath();
+                    ctx.ellipse(540, 820, 160, 15, 0, 0, 2 * Math.PI);
+                    ctx.fill();
+
+                    // POSE: High drift, slight clockwise rotation
+                    ctx.save();
+                    ctx.translate(540, 440);
+                    ctx.rotate(0.18);
+                    ctx.drawImage(img, -220, -220, 440, 440);
+                    ctx.restore();
+
+                    if(text) {
+                        ctx.fillStyle = "#1e293b";
+                        ctx.font = "900 24px sans-serif";
+                        ctx.textAlign = "center";
+                        ctx.letterSpacing = "6px";
+                        ctx.fillText(text, 500, 920);
+                    }
+                }
+            },
+            {
+                name: "15. Wavy Ripple Lines",
+                render: (ctx, img, text) => {
+                    drawWhiteBase(ctx);
+
+                    // Background: Dynamic flowing wavy broad lines
+                    ctx.strokeStyle = "#cbd5e1";
+                    ctx.lineWidth = 28;
+                    
+                    for (let y = 200; y <= 800; y += 200) {
+                        ctx.beginPath();
+                        for (let x = -50; x <= 1050; x += 50) {
+                            const waveY = y + Math.sin(x * 0.005) * 60;
+                            if (x === -50) ctx.moveTo(x, waveY);
+                            else ctx.lineTo(x, waveY);
+                        }
+                        ctx.stroke();
+                    }
+
+                    // Shadow
+                    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+                    ctx.beginPath();
+                    ctx.ellipse(480, 760, 240, 24, 0, 0, 2 * Math.PI);
+                    ctx.fill();
+
+                    // POSE: Flat-lay macro stance, highly rotated left
+                    ctx.save();
+                    ctx.translate(480, 460);
+                    ctx.rotate(-0.35);
+                    ctx.drawImage(img, -260, -260, 520, 520);
+                    ctx.restore();
+
+                    if(text) {
+                        ctx.fillStyle = "#334155";
+                        ctx.font = "bold 23px system-ui";
+                        ctx.textAlign = "center";
+                        ctx.letterSpacing = "12px";
+                        ctx.fillText(text, 500, 910);
+                    }
+                }
+            },
+            {
+                name: "16. Diamond Lattice",
+                render: (ctx, img, text) => {
+                    drawWhiteBase(ctx);
+
+                    // Background: Elegant geometric diamond framing
+                    ctx.strokeStyle = "#e2e8f0";
+                    ctx.lineWidth = 35;
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(500, 100);
+                    ctx.lineTo(900, 500);
+                    ctx.lineTo(500, 900);
+                    ctx.lineTo(100, 500);
+                    ctx.closePath();
+                    ctx.stroke();
+
+                    // Floor base shadow
+                    ctx.fillStyle = "rgba(0,0,0,0.06)";
+                    ctx.beginPath();
+                    ctx.ellipse(500, 790, 200, 20, 0, 0, 2 * Math.PI);
+                    ctx.fill();
+
+                    // POSE: Perfect center alignment, slightly elevated
+                    ctx.save();
+                    ctx.translate(500, 480);
+                    ctx.drawImage(img, -250, -250, 500, 500);
+                    ctx.restore();
+
+                    if(text) {
+                        ctx.fillStyle = "#0f172a";
+                        ctx.font = "bold 28px Georgia, serif";
+                        ctx.textAlign = "center";
+                        ctx.fillText(text, 500, 930);
+                    }
+                }
+            },
+            {
+                name: "17. Spotlight Corridor",
+                render: (ctx, img, text) => {
+                    drawWhiteBase(ctx);
+
+                    // Background: Dramatic converging corridor ray lines
+                    ctx.strokeStyle = "#f1f5f9";
+                    ctx.lineWidth = 45;
+                    ctx.beginPath();
+                    ctx.moveTo(100, 0);
+                    ctx.lineTo(400, 1000);
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.moveTo(900, 0);
+                    ctx.lineTo(600, 1000);
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.moveTo(500, 0);
+                    ctx.lineTo(500, 1000);
+                    ctx.stroke();
+
+                    // Floor pedestal line
+                    ctx.fillStyle = "#cbd5e1";
+                    ctx.fillRect(200, 740, 600, 16);
+
+                    // Drop Shadow
+                    ctx.fillStyle = "rgba(0,0,0,0.05)";
+                    ctx.beginPath();
+                    ctx.ellipse(500, 730, 220, 18, 0, 0, 2 * Math.PI);
+                    ctx.fill();
+
+                    // POSE: Tall hero stance
+                    ctx.save();
+                    ctx.translate(500, 440);
+                    ctx.drawImage(img, -240, -240, 480, 480);
+                    ctx.restore();
+
+                    if(text) {
+                        ctx.fillStyle = "#475569";
+                        ctx.font = "lighter 25px monospace";
+                        ctx.textAlign = "center";
+                        ctx.fillText(text, 500, 920);
+                    }
+                }
+            },
+            {
+                name: "18. Step Ladder Pedestal",
+                render: (ctx, img, text) => {
+                    drawWhiteBase(ctx);
+
+                    // Background: Horizontal bold structural steps
+                    ctx.strokeStyle = "#e2e8f0";
+                    ctx.lineWidth = 50;
+                    for (let y = 150; y <= 850; y += 200) {
+                        ctx.beginPath();
+                        ctx.moveTo(100, y);
+                        ctx.lineTo(900, y);
+                        ctx.stroke();
+                    }
+
+                    // Shadow
+                    ctx.fillStyle = "rgba(0,0,0,0.06)";
+                    ctx.beginPath();
+                    ctx.ellipse(450, 750, 200, 22, 0, 0, 2 * Math.PI);
+                    ctx.fill();
+
+                    // POSE: Shifted left and slightly up
+                    ctx.save();
+                    ctx.translate(450, 460);
+                    ctx.rotate(-0.08);
+                    ctx.drawImage(img, -230, -230, 460, 460);
+                    ctx.restore();
+
+                    if(text) {
+                        ctx.fillStyle = "#0f172a";
+                        ctx.font = "bold 24px system-ui";
+                        ctx.textAlign = "center";
+                        ctx.letterSpacing = "6px";
+                        ctx.fillText(text, 500, 910);
+                    }
+                }
+            },
+            {
+                name: "19. Abstract Maze Structure",
+                render: (ctx, img, text) => {
+                    drawWhiteBase(ctx);
+
+                    // Background: Geometric intersecting bold border maze
+                    ctx.strokeStyle = "#cbd5e1";
+                    ctx.lineWidth = 45;
+                    ctx.lineCap = "square";
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(100, 100);
+                    ctx.lineTo(900, 100);
+                    ctx.lineTo(900, 600);
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.moveTo(100, 900);
+                    ctx.lineTo(100, 400);
+                    ctx.lineTo(700, 400);
+                    ctx.stroke();
+
+                    // Close base shadow
+                    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+                    ctx.beginPath();
+                    ctx.ellipse(520, 760, 250, 24, 0, 0, 2 * Math.PI);
+                    ctx.fill();
+
+                    // POSE: Heavy detailed closeup scale
+                    ctx.save();
+                    ctx.translate(520, 470);
+                    ctx.rotate(0.15);
+                    ctx.drawImage(img, -280, -280, 560, 560);
+                    ctx.restore();
+
+                    if(text) {
+                        ctx.fillStyle = "#1e293b";
+                        ctx.font = "900 26px sans-serif";
+                        ctx.textAlign = "center";
+                        ctx.fillText(text, 500, 920);
+                    }
+                }
+            },
+            {
+                name: "20. Double Inlay Border",
+                render: (ctx, img, text) => {
+                    drawWhiteBase(ctx);
+
+                    // Background: Bold outer perimeter lining
+                    ctx.strokeStyle = "#cbd5e1";
+                    ctx.lineWidth = 45;
+                    ctx.strokeRect(70, 70, 860, 860);
+
+                    // Inner frame
+                    ctx.strokeStyle = "#f1f5f9";
+                    ctx.lineWidth = 20;
+                    ctx.strokeRect(120, 120, 760, 760);
+
+                    // Ground drop shadow
+                    ctx.fillStyle = "rgba(0, 0, 0, 0.07)";
+                    ctx.beginPath();
+                    ctx.ellipse(500, 760, 210, 20, 0, 0, 2 * Math.PI);
+                    ctx.fill();
+
+                    // POSE: Solid center balanced hero stance
+                    ctx.save();
+                    ctx.translate(500, 480);
+                    ctx.drawImage(img, -260, -260, 520, 520);
+                    ctx.restore();
+
+                    if(text) {
+                        ctx.fillStyle = "#0f172a";
+                        ctx.font = "medium 24px system-ui";
+                        ctx.letterSpacing = "9px";
+                        ctx.textAlign = "center";
+                        ctx.fillText(text, 500, 910);
                     }
                 }
             }
@@ -670,15 +1084,15 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.save();
             
-            // Execute environment render & pose matrix calculations
+            // Execute background lining & pose algorithms
             shoot.render(ctx, uploadedImage, titleText);
             
             ctx.restore();
 
-            // Run pixel micro-adjusters for unique digital footprints
+            // Unique cryptographic hashing injecter
             applyByteLevelNoise(ctx, canvas.width, canvas.height, (i + 1) * 0.17);
 
-            // Export physical image asset
+            // Asset pipeline exporter
             await new Promise((resolve) => {
                 canvas.toBlob((blob) => {
                     const fileSizeInKB = (blob.size / 1024).toFixed(1);
@@ -712,7 +1126,7 @@
 
         generateBtn.disabled = false;
         downloadAllBtn.style.display = 'block';
-        statusUpdate.innerText = "Complete! Constructed 10 stunningly posed photoshoot assets.";
+        statusUpdate.innerText = "Complete! Constructed 20 stunningly posed photoshoot assets with unique lining structural white backgrounds.";
     });
 
     downloadAllBtn.addEventListener('click', function() {
